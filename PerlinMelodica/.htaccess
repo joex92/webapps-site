@@ -1,0 +1,23 @@
+#RewriteEngine On
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteOptions inherit
+RewriteEngine on
+Header set content-Security-Policy: upgrade-insecure-requests
+
+<IfModule mime_module>
+    RewriteEngine On
+    Options +FollowSymLinks
+    RewriteRule ^favicon.ico favicon.ico [L]
+    SetEnv HTTP_MYSQL_HOST "mysql-joex92.alwaysdata.net"
+    SetEnv HTTP_MYSQL_USER "joex92"
+    SetEnv HTTP_MYSQL_PASS "JoeX!593"
+    #Alternate default index page
+    DirectoryIndex index.html index.php
+    AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+    ErrorDocument 404 /index.php
+    # AllowOverride FileInfo
+    AddType application/wasm .wasm
+    AddOutputFilterByType DEFLATE application/wasm
+</IfModule>
