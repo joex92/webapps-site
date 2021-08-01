@@ -1,4 +1,7 @@
 <?php
+    require('../vendor/autoload.php');
+    $dotenv = Dotenv\Dotenv::createImmutable('../');
+    $dotenv->load();
     $cookie_name = "JoeXwebApps";
     $cookieset = true;
     if(!isset($_COOKIE[$cookie_name])) {

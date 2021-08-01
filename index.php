@@ -1,4 +1,7 @@
 <?php
+    require('./vendor/autoload.php');
+    $dotenv = Dotenv\Dotenv::createImmutable('./');
+    $dotenv->load();
     $cookie_name = "JoeXwebApps";
     $cookieset = true;
     if(!isset($_COOKIE[$cookie_name])) {
@@ -206,7 +209,7 @@
         <!--<img src="joex-logo.png" style="float: left; zoom: 0.1; padding: 2px;">-->
         <p id="hi"><br>Hi, I'm <b style="color: #C00;">Joe X!</b><br>
         In this minimalistic website I'll be posting my light webapps.<br>
-        Also you can check the code on my <a href="https://github.com/joex92" target="_blank" style="color: #AAA;">Github page.</a>(If i haven't forgotten to upload there)</p>
+        Also you can check the code on my <a href="https://github.com/joex92/webapps-site" target="_blank" style="color: #AAA;">Github page.</a>(If i haven't forgotten to upload there)</p>
         <p class="clear"><u id="links">Don't forget to follow me on social media for more "webapps"</u>:</p>
         <ul class="clear">
             <li><a href="https://twitch.com/joex92" class="text" target="_blank" style="color: indigo;">&nbsp;Twitch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
