@@ -1,4 +1,5 @@
-var shape, convex = false, pd = 0.05, masked, zoom = 0;
+var shape, convex = true, pd = 0.05, masked, zoom = 1;
+var convexhull = new ConvexHullGrahamScan();
 
 function setup() {
     loadCamera(640,480);
@@ -14,8 +15,11 @@ function draw() {
     getPositions();
     
     clear();
-    
-    drawPoints(shape);
+    // try{
+        drawPoints(shape);
+    // } catch(err) {
+    //     console.log(err);
+    // }
     image(shape,0,0);
     videoInput.mask(shape);
     masked = image(videoInput,-zoom,-zoom,width+zoom,height+zoom);
@@ -38,12 +42,17 @@ function drawPoints(cnv) {
         // cnv.strokeWeight(3);
         // cnv.noFill();
         cnv.beginShape();
-        for (let i = 0; i < positions.length - innerPointsLength; i++) {
+        for (let i = 0; i < positions.length
+         // - innerPointsLength
+         ; i++) {
             let index = (i-4);
             if (i < 4) {
-                index = (positions.length - (innerPointsLength+1)) - i;
+                index = (positions.length
+                 // - (innerPointsLength+1)
+                 ) - i;
             }
-            cnv.vertex(positions[index][0], positions[index][1]);
+            // console.log(index);
+            cnv.vertex(positions[i][0], positions[i][1]);
         }
         cnv.endShape(CLOSE);
     }
