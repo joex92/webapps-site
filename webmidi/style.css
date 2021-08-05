@@ -1,7 +1,7 @@
 body {
-	background-color: black;
-	color:  white;
-	cursor: url('../cursor/joex-logo.cur'), auto;
+	background-color: white;
+	color:  black;
+	cursor: url('../cursor/joex-logo-KG.cur'), auto;
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -23,15 +23,25 @@ main, iframe {
 	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 input {
+	pointer-events: auto;
+	cursor: url('../cursor/joex-logo-GK.cur'), auto;
+}
+input[type=button] {
 	min-height: 10hv;
 	min-width: 25wv;
+	font-size: 5em;
 	}
+input[type=range][orient=vertical] {
+	min-height: 100% !important;
+	max-width: 5%;
+	-webkit-appearance: slider-vertical;
+	writting-mode: bt-lr;
+}
 #selector {
 	position: fixed;
 	opacity: 0.5;
 	bottom: 0 !important;
 	left: 0 !important;
-	font-size: 2em;
 	/*NO SELECT*/
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
@@ -45,6 +55,7 @@ input {
 	color: white;
 	mix-blend-mode: difference;
 	z-index: 10;
+	pointer-events: none;
 	/*NO SELECT*/
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
@@ -54,9 +65,12 @@ input {
 	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 #MIDIPlugin {
+	background-color: rgba(0, 0, 0, 0);
 	position: fixed;
 	bottom: 0 !important;
 	right: 0 !important;
+	text-align: right;
+	pointer-events: none;
 	/*NO SELECT*/
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
