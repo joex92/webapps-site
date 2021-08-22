@@ -1,5 +1,9 @@
 var fg, graphf, graph, arrgraph = [], cnv, ctl, seed, OSN, SN, LNP, gui, precision = 0.1, z = 0, bpm = 128, slb, ctlhidden = true, ctldrawn = false, noiseOpts, noiseSel, inp, osc, env, an, playing = false, arr = [], prevnote = 0, note, notecolor = [255,255,255], slv, btn, slp, noisebtn, gsize = 10, pd = 5, pw = 2, narr = [], ms0, ms1 = 0, sclbtn, maji = 6, mini = 9, notebtn, shown = true, mod = 1, at, al, dt, dl;
 
+// var LN = LibNoise();
+// This is to stop global mode from starting automatically
+p5.instance = true;
+
 document.addEventListener("visibilitychange", event => {
   if (document.visibilityState == "visible") {
     console.log("tab is activate")
@@ -17,12 +21,12 @@ window.addEventListener("resize", function(e) {
 });
 
 function preload() {
-    // monofont = loadFont("fonts/Dotrice-Bold-Condensed.otf");
-    // monofont = loadFont("fonts/Dotrice-Bold-Expanded.otf");
-    monofont = loadFont("fonts/Dotrice-Bold.otf");
-    // monofont = loadFont("fonts/Dotrice-Condensed.otf");
-    // monofont = loadFont("fonts/Dotrice-Expanded.otf");
-    // monofont = loadFont("fonts/Dotrice-Regular.otf");
+    // monofont = loadFont("../fonts/Dotrice-Bold-Condensed.otf");
+    // monofont = loadFont("../fonts/Dotrice-Bold-Expanded.otf");
+    monofont = loadFont("../fonts/Dotrice-Bold.otf");
+    // monofont = loadFont("../fonts/Dotrice-Condensed.otf");
+    // monofont = loadFont("../fonts/Dotrice-Expanded.otf");
+    // monofont = loadFont("../fonts/Dotrice-Regular.otf");
 }
 
 function setup() {
@@ -60,7 +64,7 @@ function setup() {
     dt = (bpm2ms(bpm)/1000); // decay time in seconds
     at = dt*0.1; // attack time in seconds
     dl = 0.0; // decay level  0.0 to 1.0
-    //   inp = 
+    //   inp =
     osc = new p5.Oscillator('sine');
     env = new p5.Envelope(at, al, dt, dl);
     an = new p5.Amplitude();
@@ -132,7 +136,7 @@ function draw() {
     bpm = slb.val;
     // env.dTime = dt = (bpm2ms(bpm)/6000)-at;
     keycontrol();
-    
+
     ctl.clear();
     if (!ctlhidden) {
         for (let el of gui.objects) {
@@ -221,7 +225,7 @@ function playNoteAt(mx = wasm.floor(mouseX/gsize),my = wasm.floor(mouseY/gsize))
     let color = midi2color(note);
     notecolor = color.rgb();
     narr.push([mouseX,mouseY,note,color]);
-    
+
     playing = true;
     if (graphf.loadPixels()){
         let xyloc = ((mx + my * graph.width) * 4);
@@ -234,13 +238,13 @@ function playNoteAt(mx = wasm.floor(mouseX/gsize),my = wasm.floor(mouseY/gsize))
         graphf.fill(notecolor);
         graphf.rect(mx-graph.width/2,my-graph.height/2,1,1);
         // graphf.rect(mx,my,1,1);
-        
+
         // graphf.stroke(color.rgb(),0.5);
         // graphf.strokeWeight(pw);
         // graphf.point(mx-graph.width/2,my-graph.height/2,1);
         // graphf.point(mx,my);
     }
-    
+
     // sleep(wasm.map(getNoiseVal(mouseX/10,mouseY/10,z),-1,1,300,100));
     // sleep(bpm2ms(bpm));
     // if (prevnote != note) {
@@ -250,7 +254,7 @@ function playNoteAt(mx = wasm.floor(mouseX/gsize),my = wasm.floor(mouseY/gsize))
         osc.freq(midiToFreq(note))
         env.play(osc);
     // }
-    
+
     prevnote = note;
 }
 
@@ -265,7 +269,7 @@ function resetall() {
 
 function keyPressed() {
     if (keyIsDown(ENTER)) {
-        
+
     }
     if (keyIsDown(ESCAPE)) {
         if (ctlhidden) {
@@ -336,7 +340,7 @@ function keyPressed() {
     if (keyIsDown(85)) {
         musicScales.rootnote = 71;
     }
-    
+
     if (keyIsDown(65)) {
         if (musicScales.scl === musicScales.minorScales[mini]){
             mini = (mini+1)%musicScales.minorScales.length;
@@ -514,3 +518,11 @@ function windowResized(){
 //   resizeCanvas(innerWidth,innerHeight);
 //   graph.resizeCanvas(innerWidth/10,innerHeight/10);
 }
+
+// Wait for promise to resolve then start p5 sketch
+
+// LN.then((lN)=>{
+    window.p5WasmReady.then(() => {
+        new p5();
+    });
+// });

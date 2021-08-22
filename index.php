@@ -167,7 +167,7 @@
                         console.log(err);
                     }
                 }
-                
+
                 for (let desc of document.getElementsByClassName('description')) {
                     let el = desc.getElementsByClassName('dtoggle')[0];
                     el.addEventListener("click", (e) => {
@@ -212,11 +212,11 @@
         Also you can check the code on my <a href="https://github.com/joex92/webapps-site" target="_blank" style="color: #AAA;">Github page.</a>(If i haven't forgotten to upload there)</p>
         <p class="clear"><u id="links">Don't forget to follow me on social media for more "webapps"</u>:</p>
         <ul class="clear">
-            <li><a href="https://twitch.com/joex92" class="text" target="_blank" style="color: indigo;">&nbsp;Twitch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="https://youtube.com/c/joex92" class="text" target="_blank" style="color: red;">&nbsp;&nbsp;Youtube&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="https://twitter.com/joex92" class="text" target="_blank" style="color: cyan;">&nbsp;&nbsp;&nbsp;Twitter&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="https://facebook.com/joex92" class="text" target="_blank" style="color: blue;">&nbsp;&nbsp;&nbsp;Facebook&nbsp;&nbsp;</a></li>
-            <li><a href="https://instagram.com/J03X92" class="text" target="_blank" style="color: darkorchid;">&nbsp;&nbsp;&nbsp;Instagram&nbsp;</a></li>
+            <li><a href="https://twitch.com/joex92" class="text" target="_blank" style="color: indigo;">&nbsp;Twitch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            <li><a href="https://youtube.com/c/joex92" class="text" target="_blank" style="color: red;">&nbsp;Youtube&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            <li><a href="https://twitter.com/joex92" class="text" target="_blank" style="color: cyan;">&nbsp;&nbsp;Twitter&nbsp;&nbsp;&nbsp;</a></li>
+            <li><a href="https://facebook.com/joex92" class="text" target="_blank" style="color: blue;">&nbsp;&nbsp;Facebook&nbsp;&nbsp;</a></li>
+            <li><a href="https://instagram.com/J03X92" class="text" target="_blank" style="color: darkorchid;">&nbsp;&nbsp;Instagram&nbsp;</a></li>
         </ul>
         <hr>
         <div class="clear">
@@ -298,16 +298,16 @@
         <div id="views"><?php
             function getUserIpAddr(){
                 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                    $ip = $_SERVER['HTTP_CLIENT_IP']; 
+                    $ip = $_SERVER['HTTP_CLIENT_IP'];
                 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR']; 
+                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
                 } else {
-                    $ip = $_SERVER['REMOTE_ADDR']; 
-                } 
-                return $ip; 
+                    $ip = $_SERVER['REMOTE_ADDR'];
+                }
+                return $ip;
             }
             function console_log($output, $with_script_tags = true) {
-                $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+                $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
             ');';
                 if ($with_script_tags) {
                     $js_code = '<script>' . $js_code . '</script>';
@@ -316,25 +316,25 @@
             }
             // Connects to your Database
             $con = mysqli_connect($_SERVER["HTTP_MYSQL_HOST"], $_SERVER["HTTP_MYSQL_USER"], $_SERVER["HTTP_MYSQL_PASS"], $_SERVER["HTTP_MYSQL_DB"]);
-            
+
             if (!$con) {
                 console_log("Error: Unable to connect to MySQL." . PHP_EOL);
                 console_log("Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
                 console_log("Debugging error: " . mysqli_connect_error() . PHP_EOL);
                 exit;
             }
-        
+
             if (!$cookieset){
                 if ($con->query("UPDATE counter SET `global` = `global` + 1") === TRUE) {
                     console_log("Global counter updated");
-                    
+
                 } else {
                     console_log("Global counter not Updated");
                 }
             } else {
                 console_log("Cookie hasn't expired");
             }
-            
+
             if ($result = $con->query("SELECT global FROM counter")) {
                 /* fetch object array */
                 while ($row = $result->fetch_row()) {
@@ -343,10 +343,10 @@
                 /* free result set */
                 $result->close();
             }
-            
+
             $ip = getUserIpAddr();
             $ipstack = json_decode(file_get_contents("http://api.ipstack.com/{$ip}?access_key=af2b95ab303f4f5033c14f73b96629cf"));
-                    
+
             if ($con->query("SHOW COLUMNS FROM `counter` LIKE '{$ipstack->location->geoname_id}'")->fetch_row()[0] == $ipstack->location->geoname_id){
                 console_log("Geoname ID {$ipstack->location->geoname_id} found");
             } else {
@@ -355,18 +355,18 @@
                     console_log("Geoname ID {$ipstack->location->geoname_id} created");
                 }
             }
-            
+
             if (!$cookieset){
                 if ($con->query("UPDATE counter SET `{$ipstack->location->geoname_id}` = `{$ipstack->location->geoname_id}` + 1") === TRUE) {
                     console_log("{$ipstack->location->geoname_id} counter updated");
-                    
+
                 } else {
                     console_log("{$ipstack->location->geoname_id} counter not updated");
                 }
             } else {
                 console_log("Cookie hasn't expired");
             }
-            
+
             if($ipstack->success==""){
                 $ipstack->location->country_flag = str_replace("http:","https:",$ipstack->location->country_flag);
                 if ($result = $con->query("SELECT `{$ipstack->location->geoname_id}` FROM counter")) {
