@@ -13,7 +13,7 @@ const __ = undefined,
 var gx = 0, gy = planetGrav();
 var or = {};
 var curl = document.URL;
-var mouseIsMoved;
+var mouseIsMoved = false;
 var tfactor = 1;
 
 function sleep(miliseconds) {
@@ -22,74 +22,74 @@ function sleep(miliseconds) {
 }
 
 function getWordPoints(word,x=10-width/2,y=height/2-10,size=100,space=size/10,font=digital){
-    if (typeof word != "string"){
-        word = word.toString();
-    }
-    let pword = new Array(word.length);
-    let xoff = 0, yoff = 0;
-    for (let i = 0; i < word.length; i++){
-        let xmx = -Infinity, ymx = -Infinity;
-        let xmn = Infinity, ymn = Infinity;
-        // if (word[i] == "e"){size += 4}
-        // if (word[i] == "S"|word[i] == "O"){size -= 1}
-        if (word[i] != " "){
-            pword[i] = font.textToPoints(
-                word[i],
-                // (i*2+1)*w/(word.length*2)-width/2, 0,
-                // (i)*w/(word.length)-width/2, s/2,
-                0,0,
-                size,
-                {
-                    sampleFactor: tfactor
-        	    }
-    	    );
-    	    for (let l of pword[i]){
-    	        if (l.x < xmn){
-    	            xmn = l.x;
-    	        }
-    	        if (l.y < ymn){
-    	            ymn = l.y;
-    	        }
-    	        if (l.x > xmx){
-    	            xmx = l.x;
-    	        }
-    	        if (l.y > ymx){
-    	            ymx = l.y;
-    	        }
-    	    }
-    	   // console.log(xmn,xmx,ymn,ymx);
-            if ((ymx-ymn) > yoff){
-                yoff = ymx-ymn;
-            }
-            pword[i] = font.textToPoints(
-                word[i],
-                // (i*2+1)*w/(word.length*2)-width/2, 0,
-                // (i)*w/(word.length)-width/2, s/2,
-                x+xoff-xmn,y-ymx,
-                size,
-                {
-                    sampleFactor: tfactor
-        	    }
-    	    );
-    	    if (i == word.length-1){
-    	        xoff += (xmx-xmn);
-    	    } else {
-    	        xoff += (xmx-xmn) + space;
-    	    }
-        } else {
-	        xoff += space*2;//(xoff/i+1)/2;
-	        pword[i] = new Array();
-        }
-        // if (word[i] == "e"){size -= 4}
-        // if (word[i] == "S"|word[i] == "O"){size += 1}
-    }
-    return {
-        points: pword,
-        x: x,
-        y: y,
-        width: xoff,
-        height:yoff
-    };
+  if (typeof word != "string"){
+      word = word.toString();
+  }
+  let pword = new Array(word.length);
+  let xoff = 0, yoff = 0;
+  for (let i = 0; i < word.length; i++){
+      let xmx = -Infinity, ymx = -Infinity;
+      let xmn = Infinity, ymn = Infinity;
+      // if (word[i] == "e"){size += 4}
+      // if (word[i] == "S"|word[i] == "O"){size -= 1}
+      if (word[i] != " "){
+          pword[i] = font.textToPoints(
+              word[i],
+              // (i*2+1)*w/(word.length*2)-width/2, 0,
+              // (i)*w/(word.length)-width/2, s/2,
+              0,0,
+              size,
+              {
+                  sampleFactor: tfactor
+      	    }
+  	    );
+  	    for (let l of pword[i]){
+  	        if (l.x < xmn){
+  	            xmn = l.x;
+  	        }
+  	        if (l.y < ymn){
+  	            ymn = l.y;
+  	        }
+  	        if (l.x > xmx){
+  	            xmx = l.x;
+  	        }
+  	        if (l.y > ymx){
+  	            ymx = l.y;
+  	        }
+  	    }
+  	   // console.log(xmn,xmx,ymn,ymx);
+          if ((ymx-ymn) > yoff){
+              yoff = ymx-ymn;
+          }
+          pword[i] = font.textToPoints(
+              word[i],
+              // (i*2+1)*w/(word.length*2)-width/2, 0,
+              // (i)*w/(word.length)-width/2, s/2,
+              x+xoff-xmn,y-ymx,
+              size,
+              {
+                  sampleFactor: tfactor
+      	    }
+  	    );
+  	    if (i == word.length-1){
+  	        xoff += (xmx-xmn);
+  	    } else {
+  	        xoff += (xmx-xmn) + space;
+  	    }
+      } else {
+        xoff += space*2;//(xoff/i+1)/2;
+        pword[i] = new Array();
+      }
+      // if (word[i] == "e"){size -= 4}
+      // if (word[i] == "S"|word[i] == "O"){size += 1}
+  }
+  return {
+      points: pword,
+      x: x,
+      y: y,
+      width: xoff,
+      height:yoff
+  };
 }
 
 function planetGrav(mass=EARTH_M,atRadius=EARTH_R){
@@ -97,10 +97,10 @@ function planetGrav(mass=EARTH_M,atRadius=EARTH_R){
 }
 
 function sliderVolume(cnv = p5.instance._renderer,x,y,gray = 50,alpha = 100,w = innerHeight/60,h = innerHeight/10){
-    if(x === undefined){x = innerWidth - (w + 5);}
-    if(y === undefined){y = 5;}
+  if(x === undefined){x = innerWidth - (w + 5);}
+  if(y === undefined){y = 5;}
 	let slider = cnv.createSliderV("vol",x,y,w,h);
-    let rgb = gray;
+  let rgb = gray;
 	slider._style.rounding = 0;
 	slider._style.fillBg.setRed(rgb+0);
 	slider._style.fillBg.setGreen(rgb+0);
@@ -160,8 +160,8 @@ function sliderVolume(cnv = p5.instance._renderer,x,y,gray = 50,alpha = 100,w = 
 }
 
 function copyObj(obj){
-    return JSON.parse(JSON.stringify(obj));
-  }
+  return JSON.parse(JSON.stringify(obj));
+}
 
 //   function random(min,max){
 //     if(objType(min)=="Number" && objType(max)!="Number"){
@@ -207,9 +207,9 @@ window.addEventListener("deviceorientation",
 );
 
 function propsAsString(obj={},sep=" ") {
-return Object.keys(obj).map(function (k) {
-  return k + ": " + obj[k];
-}).join(sep);
+  return Object.keys(obj).map(function (k) {
+    return k + ": " + obj[k];
+  }).join(sep);
 }
 
 //   Object.prototype.isObjType = function (obj = "Object"){
@@ -217,23 +217,23 @@ return Object.keys(obj).map(function (k) {
 //   }
 
 function objType(obj) {
-if (obj != (undefined || null)) {
-  return obj.constructor.toString().split(" ")[1].split("(")[0];
-} else {
-  return null;
-}
+  if (obj != (undefined || null)) {
+    return obj.constructor.toString().split(" ")[1].split("(")[0];
+  } else {
+    return null;
+  }
 }
 
 function isNumber(obj) {
-if (obj != (undefined || null)) {
-  if(objType(obj)=="Number"){
-    return true;
+  if (obj != (undefined || null)) {
+    if(objType(obj)=="Number"){
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return false;
   }
-} else {
-  return false;
-}
 }
 
 //   function log(value,base){
@@ -252,51 +252,51 @@ if (obj != (undefined || null)) {
 //   }
 
 Number.prototype.lmap = function (fromMin,fromMax,toMin,toMax) {
-let inmin, inmax, outmin, outmax;
-switch(arguments.length){
-  case 0:
-    inmin = 0;
-    inmax = 1;
-    outmin = -1;
-    outmax = 1;
-    break;
-  case 1:
-    inmin = 0;
-    inmax = 1;
-    outmin = 0;
-    outmax = arguments[0];
-    break;
-  case 2:
-    inmin = 0;
-    inmax = 1;
-    outmin = arguments[0];
-    outmax = arguments[1];
-    break;
-  case 3:
-    inmin = arguments[0];
-    inmax = arguments[1];
-    outmin = 0;
-    outmax = arguments[2];
-    break;
-  case 4:
-    inmin = arguments[0];
-    inmax = arguments[1];
-    outmin = arguments[2];
-    outmax = arguments[3];
-    break;
-  default:
-    inmin = arguments[0];
-    inmax = arguments[1];
-    outmin = arguments[2];
-    outmax = arguments[3];
-    break;
-}
-if (inmin!=inmax){
-  const R = (outmax-outmin)/(inmax-inmin);
-  return (this.valueOf()-inmin)*R+outmin;
-} else{
-  return this.valueOf();
-}
+  let inmin, inmax, outmin, outmax;
+  switch(arguments.length){
+    case 0:
+      inmin = 0;
+      inmax = 1;
+      outmin = -1;
+      outmax = 1;
+      break;
+    case 1:
+      inmin = 0;
+      inmax = 1;
+      outmin = 0;
+      outmax = arguments[0];
+      break;
+    case 2:
+      inmin = 0;
+      inmax = 1;
+      outmin = arguments[0];
+      outmax = arguments[1];
+      break;
+    case 3:
+      inmin = arguments[0];
+      inmax = arguments[1];
+      outmin = 0;
+      outmax = arguments[2];
+      break;
+    case 4:
+      inmin = arguments[0];
+      inmax = arguments[1];
+      outmin = arguments[2];
+      outmax = arguments[3];
+      break;
+    default:
+      inmin = arguments[0];
+      inmax = arguments[1];
+      outmin = arguments[2];
+      outmax = arguments[3];
+      break;
+  }
+  if (inmin!=inmax){
+    const R = (outmax-outmin)/(inmax-inmin);
+    return (this.valueOf()-inmin)*R+outmin;
+  } else{
+    return this.valueOf();
+  }
 };
 
 Number.prototype.clip = function (mn=-1,mx=1) {
@@ -313,8 +313,8 @@ return min(mx, max(this.valueOf(), mn));
 };
 
 Number.prototype.toFixed = function (fixed = 1) {
-let decimals = wasm.pow(10, fixed);
-return wasm.round(this.valueOf() * decimals) / decimals;
+  let decimals = wasm.pow(10, fixed);
+  return wasm.round(this.valueOf() * decimals) / decimals;
 };
 
 function toFixed(obj, fixed) {
@@ -356,7 +356,7 @@ function vf(p0,p1,dt=1){
     t = wasm.atan2(dy,dx);
     return {vel:v,ang:t};
     }
-    
+
     function pol2car(pol={vel:0,ang:TWO_PI}){
       let car = {
           x:pol.vel*wasm.cos(pol.ang),
@@ -377,7 +377,7 @@ function rgba2hex(orig) {
           (wasm.round(rgb[2]) | (1 << 8)).toString(16).slice(1) +
           (wasm.round(rgb[3]) | (1 << 8)).toString(16).slice(1)
         : orig;
-    
+
     if (alpha !== "") {
       a = alpha;
     } else {
@@ -386,7 +386,7 @@ function rgba2hex(orig) {
     // multiply before convert to HEX
     a = ((a * 255) | (1 << 8)).toString(16).slice(1);
     // hex = hex + a;
-    
+
     return "#" + hex;
 }
 
@@ -413,9 +413,9 @@ function rgb2rgba(src, a = 1) {
           a[i] = (v * 255);
         });
       }
-      return `rgba(${wasm.round(rgb[0])},${wasm.round(rgb[1])},${wasm.round(rgb[2])},${a})`;
+      return "rgba("+wasm.round(rgb[0])+","+wasm.round(rgb[1])+","+wasm.round(rgb[2])+","+a+")";
     } else {
-      return `rgba(0,0,0,0)`;
+      return "rgba(0,0,0,0)";
     }
 }
 
@@ -427,7 +427,7 @@ function wavelength2freq(wavelength=freq2wavelength(440*TO40OCT),c=C_VACUUM){
     wl = wavelength/NM;
     return (c/wl);
 }
-  
+
 // takes wavelength in nm and returns an rgba value
 function wavelength2color(wavelength) {
     var R,
@@ -445,7 +445,7 @@ function wavelength2color(wavelength) {
    } else if (wl >= 440 && wl < 490) {
         R = 0;
         G = (wl - 440) / (490 - 440);
-        B = 1;  
+        B = 1;
     } else if (wl >= 490 && wl < 510) {
         R = 0;
         G = 1;
@@ -486,12 +486,12 @@ function wavelength2color(wavelength) {
     colorSpace = ["rgba(" + wasm.round(R * 255) + "," + wasm.round(G * 255) + "," + wasm.round(B * 255) + ", " + alpha + ")", R, G, B, alpha]
 
     // colorSpace is an array with 5 elements.
-    // The first element is the complete code as a string.  
-    // Use colorSpace[0] as is to display the desired color.  
-    // use the last four elements alone or together to access each of the individual r, g, b and a channels.  
-   
+    // The first element is the complete code as a string.
+    // Use colorSpace[0] as is to display the desired color.
+    // use the last four elements alone or together to access each of the individual r, g, b and a channels.
+
     return colorSpace;
-   
+
 }
 
 function freq2color(freq=440){

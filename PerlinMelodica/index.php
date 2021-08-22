@@ -38,29 +38,19 @@
     <!-- <script src="../libraries/WasmNoise/html/wasmnoise.autoloader.js"></script> -->
     <script src="../libraries/OpenSimplexNoise.js"></script>
     <script src="../libraries/SimplexNoise.js"></script>
-    <script src="../node_modules/p5/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5.wasm@0.2.1/dist/p5.wasm.js"></script>
-    <script>
-        // var LN = LibNoise();
-        // This is to stop global mode from starting automatically
-        p5.instance = true;
-    </script>
-    <script src="../node_modules/p5/lib/addons/p5.sound.js"></script>
-    <script src="../libraries/p5.touchgui/lib/p5.touchgui.js"></script>
     <script src="../node_modules/libnoise.js/libnoise.js"></script>
-    <script src="../libraries/joex-p5-utils.js"></script>
-    <script src="../libraries/joex-p5noise-libnoise-helper.js"></script>
-    <script src="../libraries/joex-p5wasm-musicscales-helper.js"></script>
-    <script src="public/sketch.js"></script>
-    <script>
-      // Wait for promise to resolve then start p5 sketch
-      
-        // LN.then((lN)=>{
-            window.p5WasmReady.then(() => {
-                new p5();
-            });
-        // });
-    </script>
+    <!-- <script src="../libraries/joex-p5noise-libnoise-helper.js"></script> -->
+  	<?
+  		$sketch = $_GET['sketch'];
+  		if (strlen($sketch) > "0") {
+				echo '<script id="sketch" src="js/sketch.'.$sketch.'.js"></script>';
+        // if (strcasecmp($sketch, 'p5') == 0 ) {
+        //   echo '<script src="../libraries/joex-p5-utils.js"></script><script src="../libraries/joex-p5wasm-musicscales-helper.js"></script>';
+        // }
+  		} else {
+  			echo '<script id="redirect">window.location.replace("betaindex.html");</script>';
+  		}
+  	?>
   </head>
   <body>
     <div id="bg"></div>
