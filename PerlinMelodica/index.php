@@ -25,7 +25,7 @@
         // alert(x);
       }
     </script> -->
-    <!--<script src="../node_modules/midi-parser-js/src/main.js"></script>-->
+    <!-- <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script> -->
     <script src="../node_modules/chroma-js/chroma.js"></script>
     <script src="../node_modules/chroma-js/chroma-light.js"></script>
     <script src="../node_modules/glsl-canvas-js/dist/umd/glsl-canvas.js"></script>
@@ -39,7 +39,7 @@
     <script src="../libraries/OpenSimplexNoise.js"></script>
     <script src="../libraries/SimplexNoise.js"></script>
     <script src="../node_modules/libnoise.js/libnoise.js"></script>
-    <!-- <script src="../libraries/joex-p5noise-libnoise-helper.js"></script> -->
+    <script src="../libraries/joex-utils.js"></script>
   	<?
   		$sketch = $_GET['sketch'];
   		if (strlen($sketch) > "0") {

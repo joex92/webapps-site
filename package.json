@@ -10,6 +10,7 @@
     "graham_scan": "^1.0.4",
     "kissfft-wasm": "^1.1.2",
     "libnoise.js": "^0.0.5",
+    "midi-parser-js": "^4.0.4",
     "morgan": "^1.10.0",
     "noise-c.wasm": "^0.4.0",
     "npm-fourier": "^1.0.0",
