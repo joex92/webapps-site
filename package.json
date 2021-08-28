@@ -8,6 +8,7 @@
     "fs": "^0.0.1-security",
     "glsl-canvas-js": "^0.2.6",
     "graham_scan": "^1.0.4",
+    "js-wasm": "^0.3.1",
     "kissfft-wasm": "^1.1.2",
     "libnoise.js": "^0.0.5",
     "midi-parser-js": "^4.0.4",
