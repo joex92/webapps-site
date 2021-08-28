@@ -142,20 +142,17 @@ function loadScript(url, callback, doc=document){
 
     var script = doc.createElement("script")
     script.type = "text/javascript";
-
-    if (script.readyState){  //IE
-        script.onreadystatechange = function(){
-            if (script.readyState == "loaded" ||
-                    script.readyState == "complete"){
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {  //Others
-        script.onload = function(){
-            callback();
-        };
-    }
+    // console.log(script);
+    // if (script.readyState){  //IE
+    //     script.onreadystatechange = function(){
+    //         if (script.readyState == "loaded" ||
+    //                 script.readyState == "complete"){
+                script.onreadystatechange = callback;
+    //         }
+    //     };
+    // } else {  //Others
+        script.onload = callback;
+    // }
 
     script.src = url;
     doc.getElementsByTagName("head")[0].appendChild(script);

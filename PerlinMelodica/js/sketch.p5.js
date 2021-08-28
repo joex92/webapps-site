@@ -3,7 +3,6 @@
 // 2 <script src="../node_modules/p5/lib/addons/p5.sound.js"></script>
 // 3 <script src="../libraries/p5.touchgui/lib/p5.touchgui.js"></script>
 // 4 <script src="https://cdn.jsdelivr.net/npm/p5.wasm@0.2.1/dist/p5.wasm.js"></script>
-// 5 <script src="../public/sketch.js"></script>
 
 function sketch() {
   var fg, graphf, graph, arrgraph = [], cnv, ctl, seed, OSN, SN, LNP, gui, precision = 0.1, z = 0, bpm = 128, slb, ctlhidden = true, ctldrawn = false, noiseOpts, noiseSel, inp, osc, env, an, playing = false, arr = [], prevnote = 0, note, notecolor = [255,255,255], slv, btn, slp, noisebtn, gsize = 10, pd = 5, pw = 2, narr = [], ms0, ms1 = 0, sclbtn, maji = 6, mini = 9, notebtn, shown = true, mod = 1, at, al, dt, dl;
@@ -26,12 +25,12 @@ function sketch() {
   });
 
   preload = () => {
-      // monofont = loadFont("fonts/Dotrice-Bold-Condensed.otf");
-      // monofont = loadFont("fonts/Dotrice-Bold-Expanded.otf");
+      // monofont = loadFont("../fonts/Dotrice-Bold-Condensed.otf");
+      // monofont = loadFont("../fonts/Dotrice-Bold-Expanded.otf");
       monofont = loadFont("../fonts/Dotrice-Bold.otf");
-      // monofont = loadFont("fonts/Dotrice-Condensed.otf");
-      // monofont = loadFont("fonts/Dotrice-Expanded.otf");
-      // monofont = loadFont("fonts/Dotrice-Regular.otf");
+      // monofont = loadFont("../fonts/Dotrice-Condensed.otf");
+      // monofont = loadFont("../fonts/Dotrice-Expanded.otf");
+      // monofont = loadFont("../fonts/Dotrice-Regular.otf");
   };
 
   setup = () => {
@@ -530,70 +529,79 @@ function sketch() {
   // });
 }
 
-function p5wasmjs(rs,rj) {
+function p5sketch(rs,rj) {
   if (rs) {
-    console.log("Response:",rs);
+    console.log("Response:\n",rs);
     //
-    import("https://"+location.host+"/libraries/modules/joex-p5-utils.js").then((rs1,rj1)=>{
-        if (rs1) {
-          console.log("Response:",rs1);
-          import("https://"+location.host+"/libraries/joex-p5noise-libnoise-helper.js").then((rs2,rj2)=>{
-              if (rs2) {
-                console.log("Response:",rs2);
-                import("https://"+location.host+"/libraries/joex-p5wasm-musicscales-helper.js").then((rs3,rj3)=>{
-                    if (rs3) {
-                      console.log("Response:",rs3);
+    // import("https://"+location.host+"/libraries/modules/joex-p5-utils.js").then((rs1,rj1)=>{
+    //     if (rs1) {
+    //       console.log("Response:",rs1);
+    //       import("https://"+location.host+"/libraries/modules/joex-p5noise-libnoise-helper.js").then((rs2,rj2)=>{
+    //           if (rs2) {
+    //             console.log("Response:",rs2);
+    //             import("https://"+location.host+"/libraries/modules/joex-p5wasm-musicscales-helper.js").then((rs3,rj3)=>{
+    //                 if (rs3) {
+    //                   console.log("Response:",rs3);
     //
-                      import("https://cdn.jsdelivr.net/npm/p5.wasm@0.2.1/dist/p5.wasm.js").then((rs4,rj4)=>{
-                          if (rs4) {
-                            console.log("Response:",rs4);
-                            // This is to stop global mode from starting automatically
-                            p5.instance = true;
-                            // Wait for promise to resolve then start p5 sketch
-                            window.p5WasmReady.then(sketch).catch((err5)=>{console.error("p5WasmReady\n",err5);});
-                          }
-                          if (rj4) {
-                            console.error("Reject:",rj4);
-                          }
-                        }).catch((err4)=>{console.error("p5.wasm\n",err4);});
-      //
-                    }
-                    if (rj3) {
-                      console.error("Reject:",rj3);
-                    }
-                  }).catch((err3)=>{console.error("joex-p5wasm-musicscales-helper\n",err3);});
-              }
-              if (rj2) {
-                console.error("Reject:",rj2);
-              }
-            }).catch((err2)=>{console.error("joex-p5noise-libnoise-helper\n",err2);});
-        }
-        if (rj1) {
-          console.error("Reject:",rj1);
-        }
-      }).catch((err1)=>{console.error("joex-p5-utils\n",err1.stack);});
-      //
+    loadScript("../libraries/joex-p5-utils.js", (e1) => {
+      console.log("joex-p5-utils\n",e1);
+      loadScript("../libraries/joex-p5noise-libnoise-helper.js", (e2) => {
+        console.log("joex-p5noise-libnoise-helper\n",e2);
+        loadScript("../libraries/joex-p5wasm-musicscales-helper.js", (e3) => {
+          console.log("joex-p5wasm-musicscales-helper\n",e3);
+                          import("https://cdn.jsdelivr.net/npm/p5.wasm@0.2.1/dist/p5.wasm.js").then((rs4,rj4)=>{
+                              if (rs4) {
+                                console.log("Response:",rs4);
+                                // This is to stop global mode from starting automatically
+                                p5.instance = true;
+                                // Wait for promise to resolve then start p5 sketch
+                                window.p5WasmReady.then(sketch).catch((err5)=>{console.error("p5WasmReady\n",err5);});
+                              }
+                              if (rj4) {
+                                console.error("Reject:",rj4);
+                              }
+                            }).catch((err4)=>{console.error("p5.wasm\n",err4);});
+        });
+      });
+    });
+    //
+    //               }
+    //               if (rj3) {
+    //                 console.error("Reject:",rj3);
+    //               }
+    //             }).catch((err3)=>{console.error("joex-p5wasm-musicscales-helper\n",err3);});
+    //         }
+    //         if (rj2) {
+    //           console.error("Reject:",rj2);
+    //         }
+    //       }).catch((err2)=>{console.error("joex-p5noise-libnoise-helper\n",err2);});
+    //   }
+    //   if (rj1) {
+    //     console.error("Reject:",rj1);
+    //   }
+    // }).catch((err1)=>{console.error("joex-p5-utils\n",err1.stack);});
+    //
   }
   if (rj) {
-    console.error("Reject:",rj);
+    console.error("Reject:\n",rj);
   }
 }
 
 // import("https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js").then((rs1,rj1)=>{
 import("https://"+location.host+"/node_modules/p5/lib/p5.js").then((rs1,rj1)=>{
     if (rs1) {
-      console.log("Response:",rs1);
+      console.log("Response:\n",rs1);
       import("https://"+location.host+"/node_modules/p5/lib/addons/p5.sound.js").then((rs2,rj2)=>{
           if (rs2) {
-            console.log("Response:",rs2);
-            import("https://"+location.host+"/libraries/p5.touchgui/lib/p5.touchgui.js").then(p5wasmjs).catch((err3)=>{console.error("p5.touchgui\n",err3);});
+            console.log("Response:\n",rs2);
+            import("https://"+location.host+"/libraries/p5.touchgui/lib/p5.touchgui.js").then(p5sketch).catch((err3)=>{console.error("p5.touchgui\n",err3);});
           }
           if (rj2) {
-            console.error("Reject:",rj2);
+            console.error("Reject:\n",rj2);
           }
       }).catch((err2)=>{console.error("p5.sound\n",err2);});
     }
     if (rj1) {
-      console.error("Reject:",rj1);
+      console.error("Reject:\n",rj1);
     }
 }).catch((err1)=>{console.error("p5.js\n",err1);});
