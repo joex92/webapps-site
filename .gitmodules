@@ -10,3 +10,6 @@
 [submodule "libraries/face-tracking-p5js"]
 	path = libraries/face-tracking-p5js
 	url = https://github.com/stc/face-tracking-p5js.git
+[submodule "libraries/WasmNoise/source"]
+	path = libraries/WasmNoise/source
+	url = https://github.com/Markyparky56/WasmNoise.git
