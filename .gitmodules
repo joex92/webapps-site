@@ -1,3 +1,12 @@
 [submodule "libraries/wasm-noise-example"]
 	path = libraries/wasm-noise-example
 	url = https://github.com/MaxBittker/wasm-noise-example.git
+[submodule "libraries/MaxClientJS"]
+	path = libraries/MaxClientJS
+	url = https://github.com/taboada/MaxClientJS.git
+[submodule "libraries/two.js"]
+	path = libraries/two.js
+	url = https://github.com/jonobr1/two.js.git
+[submodule "libraries/face-tracking-p5js"]
+	path = libraries/face-tracking-p5js
+	url = https://github.com/stc/face-tracking-p5js.git
