@@ -126,34 +126,35 @@ function loadCSS(ID,URL,doc=document){
   }
 }
 
-// function loadScript(ID,URL,doc=document){
-//   if (!doc.getElementById(ID)){
-//       let head   = doc.head;
-//       let script = doc.createElement('script');
-//       script.id  = ID;
-//       script.src = URL;
-//       return head.appendChild(script);
-//   } else {
-//     return doc.getElementById(ID);
-//   }
-// }
+function loadScript(ID,URL,doc=document){
+  if (!doc.getElementById(ID)){
+      let head   = doc.head;
+      let script = doc.createElement('script');
+      script.id  = ID;
+      script.src = URL;
+      return head.appendChild(script);
+  } else {
+    return doc.getElementById(ID);
+  }
+}
 
-function loadScript(url, callback, doc=document){
-
+function loadJSscript(url, callback=null, doc=document){
     var script = doc.createElement("script")
     script.type = "text/javascript";
     // console.log(script);
-    // if (script.readyState){  //IE
-    //     script.onreadystatechange = function(){
-    //         if (script.readyState == "loaded" ||
-    //                 script.readyState == "complete"){
-                script.onreadystatechange = callback;
-    //         }
-    //     };
-    // } else {  //Others
+    if (script.readyState){  //IE
+        script.onreadystatechange = (e) => {
+          console.log(e);
+            if (script.readyState == "loaded" ||
+                    script.readyState == "complete"){
+                script.onreadystatechange = null;
+                callback(e);
+            }
+        };
+    } else {  //Others
         script.onload = callback;
-    // }
-
+    }
     script.src = url;
     doc.getElementsByTagName("head")[0].appendChild(script);
+    return script;
 }
