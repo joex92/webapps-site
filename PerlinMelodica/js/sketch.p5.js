@@ -543,11 +543,11 @@ function p5sketch(rs,rj) {
     //                 if (rs3) {
     //                   console.log("Response:",rs3);
     //
-    loadScript("../libraries/joex-p5-utils.js", (e1) => {
+    loadJSscript("../libraries/joex-p5-utils.js", (e1) => {
       console.log("joex-p5-utils\n",e1);
-      loadScript("../libraries/joex-p5noise-libnoise-helper.js", (e2) => {
+      loadJSscript("../libraries/joex-p5noise-libnoise-helper.js", (e2) => {
         console.log("joex-p5noise-libnoise-helper\n",e2);
-        loadScript("../libraries/joex-p5wasm-musicscales-helper.js", (e3) => {
+        loadJSscript("../libraries/joex-p5wasm-musicscales-helper.js", (e3) => {
           console.log("joex-p5wasm-musicscales-helper\n",e3);
                           import("https://cdn.jsdelivr.net/npm/p5.wasm@0.2.1/dist/p5.wasm.js").then((rs4,rj4)=>{
                               if (rs4) {

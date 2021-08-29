@@ -1,0 +1,3 @@
+[submodule "libraries/wasm-noise-example"]
+	path = libraries/wasm-noise-example
+	url = https://github.com/MaxBittker/wasm-noise-example.git
