@@ -25,16 +25,18 @@
         // alert(x);
       }
     </script> -->
+    <script src="https://unpkg.com/js-wasm/js-wasm.js"></script>
     <!-- <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script> -->
     <script src="../node_modules/chroma-js/chroma.js"></script>
     <script src="../node_modules/chroma-js/chroma-light.js"></script>
     <script src="../node_modules/glsl-canvas-js/dist/umd/glsl-canvas.js"></script>
     <!-- <script src="../node_modules/noise-c.wasm/src/bytes_allocation.js"></script> -->
     <!-- <script src="../node_modules/noise-c.wasm/src/constants.js"></script> -->
-    <!-- <script src="../node_modules/noise-c.wasm/src/index.js"></script> -->
+    <!-- <script type="module" src="../node_modules/noise-c.wasm/src/index.js"></script> -->
     <!-- <script src="../node_modules/noise-c.wasm/src/library_random_bytes.js"></script> -->
-    <!-- <script src="../node_modules/noise-c.wasm/src/noise-c.js"></script> -->
-    <script src="../node_modules/wasm-noise/wasm_noise.js"></script>
+    <!-- <script type="module" src="../node_modules/noise-c.wasm/src/noise-c.js"></script> -->
+    <script type="module" src="../libraries/FastNoiseLite/JavaScript/FastNoiseLite.js"></script>
+    <script type="module" src="../node_modules/wasm-noise/wasm_noise.js"></script>
     <script src="../libraries/WasmNoise/wasmnoise.autoloader.js"></script>
     <script src="../libraries/OpenSimplexNoise.js"></script>
     <script src="../libraries/SimplexNoise.js"></script>
