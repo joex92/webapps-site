@@ -13,3 +13,6 @@
 [submodule "libraries/WasmNoise/source"]
 	path = libraries/WasmNoise/source
 	url = https://github.com/Markyparky56/WasmNoise.git
+[submodule "libraries/FastNoiseLite"]
+	path = libraries/FastNoiseLite
+	url = https://github.com/Auburn/FastNoiseLite.git

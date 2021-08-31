@@ -1,9 +1,11 @@
-// <script src="https://unpkg.com/js-wasm/js-wasm.js"></script>
 var innerMin = Math.min(innerWidth,innerHeight), bg, fg, params, two, seed = Date.now(), precision = 0.1, noiseSel, noiseOpts;
 function twoSketch() {
-  // Make an instance of two and place it on the page.
-  bg = document.getElementById('bg'); //document.getElementById('draw-shapes');
+  bg = document.getElementById('bg');
   fg = document.getElementById('fg');
+  window.onmousemove = (e) => {
+    fg.style["left"] = e.clientX + "px";
+    fg.style["top"] = e.clientY + "px";
+  };
   // console.log(P5N,OSN,SN,LNP);
   noiseOpts = [
       "Open Simplex Noise"
@@ -21,7 +23,7 @@ function twoSketch() {
   };
 
   setNoiseSeed = (s) => {
-      WasmNoise.SetSeed(Date.now())
+      WasmNoise.SetSeed(Date.now());
       SN = new SimplexNoise(s);
       OSN = new OpenSimplexNoise(s);
       LNP.then((lnp)=>{
@@ -89,6 +91,7 @@ function twoSketch() {
       return val;
   };
   setNoiseSeed(seed);
+  // Make an instance of two and place it on the page.
   params = {
     type: Two.Types.svg,
     width: innerWidth,
@@ -101,30 +104,36 @@ function twoSketch() {
     two.height = innerHeight;
     innerMin = Math.min(innerWidth,innerHeight);
   };
-  window.onmousemove = (e) => {
-    fg.style["left"] = e.clientX + "px";
-    fg.style["top"] = e.clientY + "px";
-  };
 }
 
 var libNoiseScript = loadJSscript("https://"+location.host+"/libraries/joex-p5noise-libnoise-helper.js",(e) => {
   console.log(e);
   LNP = new PerlinNoise(seed);
-  import("https://unpkg.com/tone").then((rs1,rj1) => {
-    if (rs1) {
-      console.log("Response:\n",rs1);
-      import("https://"+location.host+"/libraries/two.js/build/two.js").then((rs2,rj2) => {
-        if (rs2) {
-          console.log("Response:\n",rs2);
-          twoSketch();
+  // import("https://"+location.host+"/node_modules/wasm-noise/wasm_noise.js").then((rs0,rj0) => {
+  //   if (rs0) {
+  //     console.log("Response:\n",rs0);
+      import("https://unpkg.com/tone").then((rs1,rj1) => {
+        if (rs1) {
+          console.log("Response:\n",rs1);
+          import("https://"+location.host+"/libraries/two.js/build/two.js").then((rs2,rj2) => {
+            if (rs2) {
+              console.log("Response:\n",rs2);
+              WasmNoise.onLoaded = () => {
+                twoSketch();
+              };
+            }
+            if (rj2) {
+              console.log("Reject:\n",rj2);
+            }
+          }).catch((err2)=>{console.error("Two.js\n",err2);});
         }
-        if (rj2) {
-          console.log("Reject:\n",rj2);
+        if (rj1) {
+          console.log("Reject:\n",rj1);
         }
-      }).catch((err2)=>{console.error("Two.js\n",err2);});
-    }
-    if (rj1) {
-      console.log("Reject:\n",rj1);
-    }
-  }).catch((err1)=>{console.error("Tone.js",err1);});
+      }).catch((err1)=>{console.error("Tone.js",err1);});
+  //   }
+  //   if (rj0) {
+  //     console.log("Reject:\n",rj0);
+  //   }
+  // }).catch((err0)=>{console.error("wasm-noise.js",err0);});
 });
