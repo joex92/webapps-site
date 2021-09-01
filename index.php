@@ -200,6 +200,7 @@
             //     console.log("onloadedmetadata",e,document.getElementsByTagName("iframe"));
             // };
         </script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     </head>
     <body>
         <div id="fb-root"></div>

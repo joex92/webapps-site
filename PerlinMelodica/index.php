@@ -35,7 +35,12 @@
     <!-- <script type="module" src="../node_modules/noise-c.wasm/src/index.js"></script> -->
     <!-- <script src="../node_modules/noise-c.wasm/src/library_random_bytes.js"></script> -->
     <!-- <script type="module" src="../node_modules/noise-c.wasm/src/noise-c.js"></script> -->
-    <script type="module" src="../libraries/FastNoiseLite/JavaScript/FastNoiseLite.js"></script>
+    <!-- <script type="module" src="../libraries/FastNoiseLite/JavaScript/FastNoiseLite.js"></script> -->
+    <!-- <script src="../node_modules/fast-simplex-noise/lib/mod.js"></script> -->
+    <!-- <script src="../node_modules/fast-simplex-noise/lib/2d.js"></script> -->
+    <!-- <script src="../node_modules/fast-simplex-noise/lib/3d.js"></script> -->
+    <!-- <script src="../node_modules/fast-simplex-noise/lib/4d.js"></script> -->
+    <script type="module" src="../node_modules/fastnoise-lite/FastNoiseLite.js"></script>
     <script type="module" src="../node_modules/wasm-noise/wasm_noise.js"></script>
     <script src="../libraries/WasmNoise/wasmnoise.autoloader.js"></script>
     <script src="../libraries/OpenSimplexNoise.js"></script>
