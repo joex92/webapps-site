@@ -255,7 +255,7 @@
                 </ul>
             </div>
             <hr>
-            <h3>→ <a href="javascript:openWebApp('avatarmiccam',256,256)">Avatar Mic-Cam</a> v1.0</h3>
+            <h3>→ <a href="javascript:openWebApp('avatarmiccam',256,256)">Avatar Mic-Cam</a> v1.2</h3>
             <div id="AvatarMicCam" class="description">
                 <div class="dtoggle">▀ ˢʰᵒʷ</div><br>
                 This is a little <i>"webapp"</i> I made for using when, livestreaming, you don't want to use (or don't have) a webcam.<br>
