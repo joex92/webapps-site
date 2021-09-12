@@ -11,7 +11,7 @@
         <script src="https://github.com/processing/p5.js/releases/download/1.2.0/p5.sound.js"></script>
         <script>
           // Wait for promise to resolve then start p5 sketch
-          
+
             // LN.then((lN)=>{
                 window.p5WasmReady.then(() => {
                     new p5();
@@ -31,13 +31,13 @@
             window.addEventListener("keydown", function(e) {
                 e.preventDefault();
             }, false);
-            
+
             window.addEventListener("mousedown", function(e) {
                 e.preventDefault();
             }, false);
-            
-            let img, div, mic, micLevel, minMicLevel = 0, minAvatarSize = 75, http = new XMLHttpRequest(), debugging = false;
-            
+
+            let img, div, mic, micLevel, minMicLevel = 0, maxMicLevel = 1, minAvatarSize = 75, http = new XMLHttpRequest(), debugging = false;
+
             function setup(){
                 img = document.getElementById('avatarimg');
                 div = document.getElementById('avatardiv');
@@ -52,26 +52,36 @@
                 };
                 img.onclick = userStartAudio;
             }
-            
+
             function draw(){
                 // background(0);
                 // fill(255);
                 // text('tap to start', width/2, 20);
-                
-                micLevel = mic.getLevel(1);
+
+                micLevel = wasm.pow(10,mic.getLevel(true))-1;
                 // let w = micLevel * width/2;
                 // let h = micLevel * height/2;
                 // ellipse(width/2, height/2, w, h);
-                
+
                 keyControl();
                 minMicLevel = wasm.constrain(minMicLevel,0,1);
                 minAvatarSize = wasm.constrain(minAvatarSize,0,100);
-                if (debugging){
-                    div.textContent = `${minAvatarSize}% | ${minMicLevel} | ${micLevel}`;
+
+                if (micLevel > maxMicLevel) {
+                  maxMicLevel = micLevel;
                 }
-                img.style.maxWidth = img.style.maxHeight = `${wasm.map(wasm.log((wasm.map(wasm.constrain(micLevel,minMicLevel,1),minMicLevel,1,0.1,100)))/wasm.log(10),-1,2,minAvatarSize,100)}%`;
+
+                if (micLevel.toFixed(2) === "0.00") {
+                  maxMicLevel = 1;
+                }
+
+                // img.style.maxWidth = img.style.maxHeight = `${wasm.map(wasm.log((wasm.map(wasm.constrain(micLevel,minMicLevel,1),minMicLevel,1,0.1,100)))/wasm.log(10),-1,2,minAvatarSize,100)}%`;
+                img.style.maxWidth = img.style.maxHeight = `${wasm.map(wasm.constrain(micLevel,minMicLevel,Infinity),minMicLevel,maxMicLevel,minAvatarSize,100).toFixed(2)}%`;
+                if (debugging){
+                    div.innerHTML = `&nbsp;<b>Min Size:</b> ${minAvatarSize.toFixed(2)}%&nbsp;<br>&nbsp;<b>Mic Treshold:</b> ${minMicLevel.toFixed(2)}&nbsp;<hr>&nbsp;<b>Avatar Size:</b> ${img.style.maxWidth}&nbsp;<br>&nbsp;<b>Mic Level:</b> ${micLevel.toFixed(2)}&nbsp;`;
+                }
             }
-            
+
             function keyControl(){
                 if (keyIsDown(UP_ARROW)){
                     minAvatarSize = minAvatarSize + 0.5;
@@ -86,7 +96,7 @@
                     minMicLevel = minMicLevel + 0.0025;
                 }
             }
-            
+
             function keyPressed(){
                 // console.log(keyIsDown(17),keyIsDown(79))
                 if (keyIsDown(17) && keyIsDown(79)) {
@@ -117,7 +127,7 @@
                     }
                 }
             }
-            
+
             function changeIMG(){
                 let imglink = prompt("Enter a valid image link", img.src);
                 if (imglink !== null) {
@@ -128,7 +138,7 @@
                     }
                 }
             }
-            
+
             function imageExists(image_url){
                 http.open('HEAD', "https://cors-anywhere.herokuapp.com/"+image_url, false);
                 http.send();
@@ -137,7 +147,7 @@
                 // testImage(image_url).then((r) => {res = r});
                 return http.status != 404 && image_url != null;// && res === "success";
             }
-            
+
             function testImage(url, timeoutT) {
                 return new Promise(function(resolve, reject) {
                     var timeout = timeoutT || 5000;
@@ -155,7 +165,7 @@
                         // loading, but doens't trigger new load
                         img.src = "//!!!!/noexist.jpg";
                         reject("timeout");
-                    }, timeout); 
+                    }, timeout);
                     img.src = url;
                 });
             }
