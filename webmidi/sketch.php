@@ -1,6 +1,8 @@
 <html>
 	<head>
 	<link rel="stylesheet" href="style.css">
+	<script src='https://requirejs.org/docs/release/2.3.6/r.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'></script>
 	<script src='https://cwilso.github.io/WebMIDIAPIShim/build/WebMIDIAPI.min.js'></script>
 	<script src="../node_modules/midi-parser-js/src/midi-parser.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/webmidi@2.5.2"></script>
