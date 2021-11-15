@@ -3,7 +3,7 @@ var kick, snare, hihat, dlooper, mixer = [], master, plucky, metro, bpm = 100, t
 var animate = false, elem, params, two, circle, rect, group, shape, scope, drawloop;
 var col = "rgb(0, 0, 0)";
 
-import("../node_modules/dxf-parser/dist/dxf-parser.js").then().catch((err1)=>{console.log("dxf-parser.js",err1);});
+import("../node_modules/dxf/dist/dxf.js").then().catch((err1)=>{console.log("dxf-parser.js",err1);});
 import("../libraries/two.js/build/two.js").then(twoSketch).catch((err1)=>{console.log("two.js",err1);});
 
 function twoSketch(rs1,rj1) {
