@@ -4,6 +4,7 @@
     "chroma-js": "^2.1.2",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
+    "dxf": "^4.6.1",
     "express": "^4.17.1",
     "fast-simplex-noise": "^4.0.0",
     "fastnoise-lite": "^0.0.1",

@@ -17,7 +17,10 @@
 	</head>
 	<body>
 		<main></main>
-		<div id="main"></div>
+		<div style="z-index: 1; position: fixed; color: white; background-color: rgba(0,0,0,0.5);">
+			<input type='file' id='file' accept=".dxf"/>:<span id='numberOfEntities'>-</span>
+			<div id="main"></div>
+		</div>
 		<div id="MIDIPlugin" style="position: fixed; visibility: visible; right: 0; bottom: 0; background-color: rgba(0,0,0,0); width: auto; height: 100%">
 			<input id="sigfreq" type="range" step="1" min="-128" max="127" orient="vertical" value="45">
 			<input id="multfreq" type="range" step="0.5" min="2" max="16" orient="vertical" value="4">
