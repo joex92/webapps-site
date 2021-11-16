@@ -2,9 +2,82 @@ var div, mousedrag = false, debug = false, woff = -innerWidth/2, hoff = -innerHe
 var kick, snare, hihat, dlooper, mixer = [], master, plucky, metro, bpm = 100, t, n = 1, splitter, wave = [], sig, sigmult = 4;
 var animate = false, elem, params, two, circle, rect, group, shape, scope, drawloop;
 var col = "rgb(0, 0, 0)";
-
-import("../node_modules/dxf/dist/dxf.js").then().catch((err1)=>{console.log("dxf-parser.js",err1);});
-import("../libraries/two.js/build/two.js").then(twoSketch).catch((err1)=>{console.log("two.js",err1);});
+var numberOfEntities, fileInput, DXF, dxfhelper, dxfpoints = [], dxfpoly;
+import("https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js").then((rs,rj) => {
+        console.log(rs,rj);
+        loadJSscript("https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js", (e) => {
+                console.log(e);
+                // var svgContainer = document.getElementById('svg')
+                numberOfEntities = document.getElementById('numberOfEntities');
+                fileInput = document.getElementById('file');
+                window.requirejs(['../node_modules/dxf/dist/dxf'], function(dxf) {
+                        DXF = dxf;
+                        dxf.config.verbose = true;
+                        fileInput.addEventListener('change', function(event) {
+                                var file = event.target.files[0]
+                                var reader = new FileReader()
+                                numberOfEntities.innerHTML = 'reading...'
+                                reader.onload = function(e) {
+                                        if (e.target.readyState === 2) {
+                                                var dxfContents = e.target.result
+                                                dxfhelper = new dxf.Helper(dxfContents)
+                                                numberOfEntities.innerHTML = dxfhelper.denormalised.length
+                                                // const svg = dxfhelper.toSVG()
+                                                // svgContainer.innerHTML = svg
+                                                dxfpoly = dxfhelper.toPolylines();
+                                                dxfpoints = [];
+                                                for (i = 0; i < dxfhelper.denormalised.length; i++) {
+                                                        if (dxfhelper.denormalised[i].type === 'LINE') {
+                                                                // dxfpoints.push(dxfhelper.denormalised[i].start,dxfhelper.denormalised[i].end);
+                                                                const llength = 128;
+                                                                for (j = 0; j < llength; j++){
+                                                                        dxfpoints.push({
+                                                                                x: dxfhelper.denormalised[i].start.x+((dxfhelper.denormalised[i].end.x-dxfhelper.denormalised[i].start.x)*(j/llength)),
+                                                                                y: dxfhelper.denormalised[i].start.y+((dxfhelper.denormalised[i].end.y-dxfhelper.denormalised[i].start.y)*(j/llength)),
+                                                                                z: dxfhelper.denormalised[i].start.z+((dxfhelper.denormalised[i].end.z-dxfhelper.denormalised[i].start.z)*(j/llength))
+                                                                        });
+                                                                }
+                                                        // } else if (dxfhelper.denormalised[i].type === 'POLYLINE') {
+                                                        //         for (j = 0; j < dxfhelper.denormalised[i].vertices.length; j++){
+                                                        //                 dxfpoints.push(dxfhelper.denormalised[i].vertices[j]);
+                                                        //         }
+                                                        // } else if (dxfhelper.denormalised[i].type === 'SPLINE') {
+                                                        //         for (j = 0; j < dxfhelper.denormalised[i].controlPoints.length; j++){
+                                                        //                 dxfpoints.push(dxfhelper.denormalised[i].controlPoints[j]);
+                                                        //         }
+                                                        } else {
+                                                                console.log(dxfhelper.denormalised[i].type);
+                                                                for (j = 0; j < dxfpoly.polylines[i].vertices.length; j++){
+                                                                        dxfpoints.push({
+                                                                                x: dxfpoly.polylines[i].vertices[j][0],
+                                                                                y: dxfpoly.polylines[i].vertices[j][1],
+                                                                                z: dxfpoly.polylines[i].vertices[j][2]
+                                                                        });
+                                                                }
+                                                        }
+                                                }
+                                                console.log(dxfpoly,dxfpoints.length);
+                                                if (dxfpoints.length > 1){
+                                                        const dx = (Math.abs(dxfhelper.parsed.header.extMax.x) - Math.abs(dxfhelper.parsed.header.extMin.x)) / 2;
+                                                        const dy = (Math.abs(dxfhelper.parsed.header.extMax.y) - Math.abs(dxfhelper.parsed.header.extMin.y)) / 2;
+                                                        const dmax = Math.max(
+                                                                Math.abs(dxfhelper.parsed.header.extMax.x - dx),
+                                                                Math.abs(dxfhelper.parsed.header.extMin.x - dx),
+                                                                Math.abs(dxfhelper.parsed.header.extMax.y - dy),
+                                                                Math.abs(dxfhelper.parsed.header.extMin.y - dy)
+                                                        );
+                                                        console.log(dx,dy,dmax);
+                                                        sig.L.setMap((val,ind) => (dxfpoints[Math.floor((ind/1024) * dxfpoints.length)].x - dx) / dmax);
+                                                        sig.R.setMap((val,ind) => (dxfpoints[Math.floor((ind/1024) * dxfpoints.length)].y - dy) / dmax);
+                                                }
+                                        }
+                                }
+                                reader.readAsBinaryString(file)
+                        });
+                });
+        });
+}).catch((err1)=>{console.log("Require.js",err1);});
+import("../libraries/two.js/build/two.js").then(twoSketch).catch((err2)=>{console.log("two.js",err2);});
 
 function twoSketch(rs1,rj1) {
 
@@ -63,12 +136,14 @@ function twoSketch(rs1,rj1) {
         if (mousedrag) {
           // console.log(ev.target.value);
           sigmult = Number(ev.target.value);
+          sig.L.setMap((val,ind) => (ind/512)-1);
           sig.R.setMap((val,ind) => Math.sin(sigmult*(ind/1023)*Math.PI));
         }
       });
       document.getElementById("multfreq").addEventListener('change', (ev) => {
         debugdiv(ev);
         sigmult = Number(ev.target.value);
+        sig.L.setMap((val,ind) => (ind/512)-1);
         sig.R.setMap((val,ind) => Math.sin(sigmult*(ind/1023)*Math.PI));
       });
 
@@ -125,7 +200,7 @@ function twoSketch(rs1,rj1) {
       // L: new Tone.WaveShaper((val) => Math.cos((0.5+Math.max(-0.5,Math.min(val,0.5)))*2*Math.PI)/2),
       // L: new Tone.WaveShaper((val) => Math.cos(val*Math.PI)/2),
       // L: new Tone.WaveShaper((val,ind) => Math.cos((ind/511.5)*Math.PI)/2),
-      L: new Tone.WaveShaper((val,ind) => (ind/511.5)-1),
+      L: new Tone.WaveShaper((val,ind) => (ind/512)-1),
       panR: new Tone.Panner({pan: 1}).connect(master),
       // R: new Tone.WaveShaper((val) => Math.sin((0.5+Math.max(-0.5,Math.min(val,0.5)))*2*Math.PI)/2),
       // R: new Tone.WaveShaper((val) => Math.sin(val*Math.PI)/2),
