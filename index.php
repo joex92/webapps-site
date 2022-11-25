@@ -279,6 +279,11 @@
                 </ul>
             </div>
             <hr>
+            <h3>→ <a href="javascript:openWebApp('sc2tts',window.screen.availWidth,window.screen.availHeight)">Stream Chat to TTS</a> (beta 1.5)</h3>
+            <div id="sc2tts" class="description">
+                <div class="dtoggle">▀ ˢʰᵒʷ</div><br>
+                <i class="commission">This is a web app for streamers to have a bot read your chat using the OS's TTS.
+            </div>
             <h3>→ <a href="javascript:openWebApp('https://www.proyectohomes.com',window.screen.availWidth,window.screen.availHeight)">Proyecto HOMeS</a> (Spanish)</h3>
             <div id="HOMeS" class="description">
                 <div class="dtoggle">▀ ˢʰᵒʷ</div><br>

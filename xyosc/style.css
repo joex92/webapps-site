@@ -1,0 +1,86 @@
+@font-face {
+  font: "DejaVu LGC Sans Mono";
+  src: local("../fonts/dejavu-lgc-fonts-ttf-2.37/ttf/DejaVuLGCSansMono.ttf")
+    format("truetype");
+}
+* {
+  font: "DejaVu LGC Sans Mono";
+  background: #000000bb;
+  border-color: #69696969;
+  color: #ffffffff;
+  margin: 1px;
+  padding: 0;
+  width: auto;
+  height: auto;
+}
+body {
+  overscroll-behavior: contain;
+}
+#Oscilloscope {
+  margin: 0;
+  position: fixed;
+  block-size: fit-content;
+  transform: translate(-50%, -50%);
+  top: calc(min(100vw, 100vh) / 2);
+  left: 50%;
+  width: min(100vw, 100vh);
+  height: min(100vw, 100vh);
+  z-index: 0;
+}
+#controls {
+  font-family: monospace;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: min(1vw, 1vh);
+  width: 98vw;
+  text-align: left;
+  z-index: 10;
+  opacity: 0.25;
+}
+#button,
+#templates,
+#midi,
+#mdevices,
+#theta,
+#mic,
+#micmute,
+#mute {
+  background: #ff000069;
+  margin: 0;
+  padding-left: calc(1ch - 2px);
+  padding-right: calc(1ch - 2px);
+  font-family: monospace;
+  cursor: pointer;
+}
+#fradio {
+  margin-left: 0;
+  margin-right: 0;
+  font-family: monospace;
+}
+#finputt,
+#finput0,
+#finput1 {
+  font-family: monospace;
+  width: calc(100% - 7ch);
+  max-width: 100%;
+}
+#freq,
+#vol,
+#micvol {
+  width: calc(49vw - 15ch);
+}
+#debug {
+  position: fixed;
+  top: min(1vw, 1vh);
+  left: min(1vw, 1vh);
+  opacity: 0.25;
+  pointer-events: none;
+}
+#clipboard {
+  position: fixed;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -100;
+}
