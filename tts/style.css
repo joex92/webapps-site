@@ -23,11 +23,23 @@ body {
 }
 * /* :not(.ui-state-hover) */ {
 	font-family: "Lucida Console", monospace;
-	font-size: max(2vh,2vw);
 	background: var(--elbg);
 	border-color: #69696969;
 	color: #ffffffff;
 }
+
+@media ( max-width: 100vh ) {
+	* {
+		font-size: max(2vh,2vw);
+	}
+}
+
+@media ( min-width: 100vh ) {
+	* {
+		font-size: min(2vh,2vw);
+	}
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -94,8 +106,8 @@ input[type="checkbox" i] {
 .ui-state-default {
 	background: var(--elbg);
 }
-.ui-state-hover {
-	color: #333;
+label.ui-corner-all.ui-state-hover {
+	background: #333;
 }
 .ui-multiselect-menu {
 	max-height: 75%;
