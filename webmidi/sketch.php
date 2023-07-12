@@ -22,9 +22,9 @@
 			<div id="main"></div>
 		</div>
 		<div id="MIDIPlugin" style="position: fixed; visibility: visible; right: 0; bottom: 0; background-color: rgba(0,0,0,0); width: auto; height: 100%">
-			<input id="sigfreq" type="range" step="1" min="-128" max="127" orient="vertical" value="45">
-			<input id="multfreq" type="range" step="0.5" min="2" max="16" orient="vertical" value="4">
 			<input id="volume" type="range" step="0.1" min="0" max="1.5" orient="vertical" value="1">
+			<input id="sigfreq" type="range" step="1" min="-128" max="127" orient="vertical" value="69">
+			<input id="multfreq" type="range" step="0.5" min="2" max="32" orient="vertical" value="4">
 		</div>
 	</body>
 </html>

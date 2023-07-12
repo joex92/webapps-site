@@ -1,0 +1,133 @@
+:root {
+	--mousex: 0;
+	--mousey: 0;
+	--100w: 0;
+	--100h: 0;
+}
+* {
+	font-family: "Lucida Console";
+	background: #18191Aff;
+	border-color: #69696969;
+	color: #ffffffff;
+	margin: 0;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	padding: 0;
+	overflow: hidden;
+}
+body {
+	background: #000000ff;
+}
+a {
+	margin: 0;
+	padding: 0;
+}
+select, input, button {
+	background: #ff000069;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+.time {
+	background: #ffff0069;
+	display: inline-block;
+	width: calc(100% - 22em - 20px);
+}
+.event {
+	background: #0000ff69;
+	display: inline-block;
+	width: 22em;
+	text-align: center;
+}
+.channel {
+	background: #ff000069;
+	display: inline-block;
+	width: 18em;
+	text-align: right;
+}
+.message {
+	background: #18191A1B;
+	display: inline-block;
+	min-width: calc( 100% - 20px - 18em );
+}
+.ui-multiselect-menu {
+	/* display: flex; */
+	flex-direction: column;
+	overflow-x: hidden; /* Hide horizontal scrollbar */
+	overflow-y: auto; /* Add vertical scrollbar */
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+#header {
+	position: fixed;
+	width: calc(100vw - 20px);
+	top: 0;
+	left: 0;
+	white-space: nowrap;
+	z-index: 1;
+}
+#footer {
+	position: fixed;
+	width: 100vw;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+}
+#chat {
+	position: fixed;
+	white-space: nowrap;
+	max-height: 100%;
+	width: 100%;
+	bottom: 0;
+	right: 0;
+	overflow: scroll;
+	z-index: 0;
+}
+#service, #cancel, #pause {
+	width: 4.8rem;
+	text-align: center;
+}
+#vol, #spd, #pitch {
+	width: 25%;
+}
+#channel {
+	width: 50%;
+}
+#tts {
+	width: 1em;
+}
+#ttscontrols {
+	background: none;
+	border: 0;
+	white-space: nowrap;
+	width: 100%;
+}
+#broadcast {
+	margin: 0;
+	width: calc(100% - 20px);
+}
+#sendbc {
+	position: fixed;
+	width: 20px;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #aaaaaa;
+	opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #aaaaaa;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+	color: #aaaaaa;
+}
