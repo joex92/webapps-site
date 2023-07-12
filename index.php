@@ -236,8 +236,10 @@
 								$file = fopen("apps.csv", "r");
                 // Fetching data from csv file row by row
                 while (($data = fgetcsv($file)) !== false) {
-                    printf("\n<h3>→ <a href=\"javascript:openWebApp(%s)\">%s</a></h3>", $data[1], $data[2]);
-                    printf("\n<div id='%s' class='description'><div class='dtoggle'>▀ ˢʰᵒʷ</div><br>%s</div>\n<hr>\n",$data[0],$data[3]);
+                    if ( $data[0] != "ID" ) {
+                        printf("\n<h3>→ <a href=\"javascript:openWebApp(%s)\">%s</a></h3>", $data[1], $data[2]);
+                        printf("\n<div id='%s' class='description'><div class='dtoggle'>▀ ˢʰᵒʷ</div><br>%s</div>\n<hr>\n",$data[0],$data[3]);
+                    }
                 }
                 // Closing the file
                 fclose($file);
