@@ -32,6 +32,8 @@
                 cursor: "url(https://<? echo $_SERVER['HTTP_HOST'] ?>/cursor/joex-logo.cur), auto";
                 padding: 0;
                 margin: 0;
+                /* overflow-x: hidden; */
+                /* overflow-y: hidden; */
             }
             a {
                 background-color: black;
@@ -80,15 +82,22 @@
             }
             #cnvbg {
                 position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
                 /* pointer-events: none; */
                 z-index: -100;
             }
             #fg {
+                /* position: fixed; */
+                /* top: 0; */
+                /* left: 0; */
                 background-color: #000000CC;
                 padding: 1em;
                 margin: 0;
+                /* overflow-x: auto; */
+                /* overflow-y: auto; */
             }
             #hi {
                 margin: 1em;
@@ -98,7 +107,8 @@
                 cursor: crosshair;
                 text-align: center;
                 font-size: 1vw;
-                font-family: "Lucida Console", "Courier New", monospace;
+                font-family: "Lucida Console", "Courier New", monospace; 
+                z-index: 100;
                 /*NO SELECT*/
                 -webkit-touch-callout: none; /* iOS Safari */
                 -webkit-user-select: none; /* Safari */
@@ -237,8 +247,8 @@
                     this.angle = Math.atan2(this.dy, this.dx);
                     this.vx = this.force * Math.cos(this.angle);
                     this.vy = this.force * Math.sin(this.angle);
-                    this.friction = 0.98;
-                    this.ease = 0.002;
+                    this.friction = 0.99;
+                    this.ease = 0.001;
                 }
                 update(){
                     if ( this.centerX != (innerWidth / 2) ) {
@@ -260,6 +270,10 @@
                     }
                     this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
                     this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
+										this.x += this.effect.width;
+										this.y += this.effect.height;
+										this.x %= this.effect.width;
+										this.y %= this.effect.height;
                     }
                 }
 
@@ -276,7 +290,7 @@
                         this.particles = [];
                         this.gap = 30;
                         this.mouse = {
-                            radius: Math.max(this.width,this.height) / 2,
+                            radius: Math.max(this.width,this.height) * ( 100 - this.gap ) / 100,
                             x: this.centerX,
                             y: this.centerY
                         }
@@ -306,7 +320,7 @@
                             this.height = innerHeight;
                             this.centerX - this.image.width / 2;
                             this.centerY - this.image.height / 2;
-                            this.mouse.radius = Math.max(this.width,this.height) / 2;
+                            this.mouse.radius = Math.max(this.width,this.height) * ( 100 - this.gap ) / 100;
                             canvas.width = window.innerWidth;
                             canvas.height = window.innerHeight;
                         }, false);
@@ -341,7 +355,7 @@
                         for(var i = 0; i < this.particles.length; i++) {
                             var p = this.particles[i];
                             this.context.fillStyle = p.color;
-                            this.context.fillRect(p.x, p.y, p.size, p.size);
+                            this.context.fillRect(p.x-(p.size/2), p.y-(p.size/2), p.size, p.size);
                         }
                     }
                 }
@@ -374,6 +388,7 @@
                     }
                 }
 
+                // Original particle effect code by https://codepen.io/franksLaboratory
                 function animate() {
                     effect.update();
                     effect.render();
