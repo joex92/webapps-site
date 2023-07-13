@@ -36,7 +36,7 @@
                 /* overflow-y: hidden; */
             }
             a {
-                background-color: black;
+                background-color: #00000066;
                 color: white;
                 cursor: "url(https://<? echo $_SERVER['HTTP_HOST'] ?>/cursor/joex-logo-link.cur)";
                 cursor: "url(https://<? echo $_SERVER['HTTP_HOST'] ?>/cursor/joex-logo-link.cur), auto";
@@ -46,15 +46,18 @@
             }
             a.text:hover {
                 filter: none;
-                background-color: lightgray;
+                background-color: #CCCCCC66;
                 mix-blend-mode: difference;
             }
             .clear {
                 clear: both;
             }
             .dtoggle {
+                display: flex;
+                width: fit-content;
                 cursor: pointer;
-                padding: 0;
+                padding: 1px;
+                background-color: #000000CC;
                 /*NO SELECT*/
                 -webkit-touch-callout: none; /* iOS Safari */
                 -webkit-user-select: none; /* Safari */
@@ -63,11 +66,15 @@
                 -ms-user-select: none; /* Internet Explorer/Edge */
                 user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
             }
+            .dtoggle:hover {
+                filter: invert();
+            }
             .description {
                 overflow: hidden;
+                background-color: #33333333;
                 padding: 0;
                 width: 10%;
-                height: 20px;
+                height: 2em;
             }
             .commission {
                 text-decoration: underline;
@@ -153,7 +160,9 @@
         </style>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script>
-            var canvas, ctx, effect, currentScroll = { x: 0, y: 0};
+            let canvas, ctx, currentScroll = { x: 0, y: 0};
+            var effect;
+            
             function googleTranslateElementInit() {
               new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL}, 'google_translate_element');
             }
@@ -213,18 +222,21 @@
 
                 for (let desc of document.getElementsByClassName('description')) {
                     let el = desc.getElementsByClassName('dtoggle')[0];
+                    desc.style["width"] = "calc(" + document.getElementsByClassName("dtoggle")[0].clientWidth + "px + 1em)";
                     el.addEventListener("click", (e) => {
                         if (desc.style["height"] === "") {
-                            el.innerHTML = `█&nbsp;<sup>hide</sup>`;
+                            el.innerHTML = "█&nbsp;<sup>collapse</sup>&nbsp;";
                             desc.style["width"] = "100%";
                             desc.style["height"] = "auto";
                         } else {
-                            el.innerHTML = `▀&nbsp;<sup>show</sup>`;
-                            desc.style["width"] = "10%";
+                            el.innerHTML = "▀&nbsp;<sup>expand</sup>&nbsp;";
+                            desc.style["width"] = "calc(" + document.getElementsByClassName("dtoggle")[0].clientWidth + "px + 1em)";
                             desc.style["height"] = "";
                         }
                     });
                 }                
+                
+                ///////////////////////////////////////////////////////////////////////////
                 
                 canvas = document.getElementById('cnvbg');
                 ctx = canvas.getContext('2d');
@@ -238,7 +250,6 @@
                     this.centerY = this.effect.centerY;
                     this.x = this.originX = x;
                     this.y = this.originY = y;
-                    this.size = this.effect.gap;
                     this.color = color;
                     this.dx = this.x - this.effect.centerX;
                     this.dy = this.y - this.effect.centerY;
@@ -247,8 +258,6 @@
                     this.angle = Math.atan2(this.dy, this.dx);
                     this.vx = this.force * Math.cos(this.angle);
                     this.vy = this.force * Math.sin(this.angle);
-                    this.friction = 0.99;
-                    this.ease = 0.001;
                 }
                 update(){
                     if ( this.centerX != (innerWidth / 2) ) {
@@ -265,11 +274,11 @@
                     this.force = -this.effect.mouse.radius / this.distance;
                     if(this.distance < this.effect.mouse.radius) {
                         this.angle = Math.atan2(this.dy, this.dx);
-                        this.vx += this.force * Math.cos(this.angle);
-                        this.vy += this.force * Math.sin(this.angle);
+                        this.vx += this.force * Math.cos(this.angle) * this.effect.acceleration;
+                        this.vy += this.force * Math.sin(this.angle) * this.effect.acceleration;
                     }
-                    this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
-                    this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
+                    this.x += (this.vx *= this.effect.friction) + (this.originX - this.x) * this.effect.ease;
+                    this.y += (this.vy *= this.effect.friction) + (this.originY - this.y) * this.effect.ease;
 										this.x += this.effect.width;
 										this.y += this.effect.height;
 										this.x %= this.effect.width;
@@ -288,9 +297,19 @@
                         this.x = this.centerX - this.image.width / 2;
                         this.y = this.centerY - this.image.height / 2;
                         this.particles = [];
-                        this.gap = 30;
+                        this.size = <?php
+                            $size = 30;
+                            if ( isset($_GET['size']) ) {
+                                $size = $_GET['size'];
+                            } 
+                            echo $size;
+                        ?>;
+                        this.friction = 0.99;
+                        this.ease = 0.001;
+                        this.acceleration = 0.1;
+                        this.alpha = 0.8;
                         this.mouse = {
-                            radius: Math.max(this.width,this.height) * ( 100 - this.gap ) / 100,
+                            radius: Math.max(this.image.width,this.image.height) / ( this.size  / 100 ),
                             x: this.centerX,
                             y: this.centerY
                         }
@@ -320,7 +339,7 @@
                             this.height = innerHeight;
                             this.centerX - this.image.width / 2;
                             this.centerY - this.image.height / 2;
-                            this.mouse.radius = Math.max(this.width,this.height) * ( 100 - this.gap ) / 100;
+                            this.mouse.radius = Math.max(this.image.width,this.image.height) / ( this.size  / 100 );
                             canvas.width = window.innerWidth;
                             canvas.height = window.innerHeight;
                         }, false);
@@ -329,15 +348,14 @@
                         this.context.drawImage(this.image,this.x, this.y);
                         var pixels = this.context.getImageData(0, 0, this.width, this.height).data;
                         var index;
-                        for(var y = 0; y < this.height; y += this.gap) {
-                            for(var x = 0; x < this.width; x += this.gap) {
+                        for(var y = this.height - 1; y >= 0 ; y -= this.size) {
+                            for(var x = this.width - 1; x >= 0 ; x -= this.size) {
                                 index = (y * this.width + x) * 4;
                                 const red = pixels[index];
                                 const green = pixels[index + 1];
                                 const blue = pixels[index + 2];
-                                const color = 'rgb(' + red + ',' + green + ',' + blue + ')';
-
                                 const alpha = pixels[index + 3];
+                                const color = { r: red, g: green, b: blue, a: alpha / 255 };
                                 if(alpha > 0) {
                                     this.particles.push(new Particle(this, x, y, color));
                                 }
@@ -354,14 +372,24 @@
                         this.context.clearRect(0, 0, this.width, this.height);
                         for(var i = 0; i < this.particles.length; i++) {
                             var p = this.particles[i];
-                            this.context.fillStyle = p.color;
-                            this.context.fillRect(p.x-(p.size/2), p.y-(p.size/2), p.size, p.size);
+                            this.context.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + (this.alpha * p.color.a) + ')';
+                            this.context.fillRect(p.x-(this.size/2), p.y-(this.size/2), this.size, this.size);
                         }
                     }
                 }
 
                 effect = new Effect(canvas.width, canvas.height, ctx);
                 effect.init();
+
+                // Original particle effect code by https://codepen.io/franksLaboratory
+                function animate() {
+                    effect.update();
+                    effect.render();
+                    requestAnimationFrame(animate);
+                }
+                animate();
+                
+                ///////////////////////////////////////////////////////////////////////////
                 
                 document.body.onscroll = (e) => {
                     <!-- console.log("onscroll",e); -->
@@ -387,16 +415,21 @@
                         console.log(err);
                     }
                 }
-
-                // Original particle effect code by https://codepen.io/franksLaboratory
-                function animate() {
-                    effect.update();
-                    effect.render();
-                    requestAnimationFrame(animate);
-                }
-                animate();
                 
-                if ( location.hash.search('#logo') > -1 ) document.getElementById("fg").hidden = true;
+                if ( location.hash.search('#logo') < 0 ) document.getElementById("fg").hidden = false;
+                
+                console.clear();
+                console.log(`Hey! I see you are curious!
+well then, if you want to experiment with the background, just check the "effect" object.
+you can change:
+    - size
+    - friction
+    - ease
+    - acceleration
+    - alpha value
+
+You can also hide/unhide the content by clicking on the logo.
+👍🏼`);
             };
 
             // window.onloadeddata =  (e) => {
@@ -412,7 +445,7 @@
     <body>
 				<canvas id="cnvbg"></canvas>
         <img id="logo" src="joex-logo.png" style="float: left; zoom: 0.2; padding: 10em; margin: 0" title="Click me!">
-        <div id="fg">
+        <div id="fg" hidden>
             <div id="fb-root"></div>
             <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0&appId=238843577785477&autoLogAppEvents=1" nonce="q0iP3Qki"></script>
             <!-- <pre id="logo"><font color="black">▓▓▓▓▓▓▓▓▓</font><font color="#292929">▓</font><font color="#666666">▓▓▓</font><font color="#7a7676">▓</font><font color="#d1bcbc">▓</font><font color="#d0bbbc">▓</font><font color="#d0bbbb">▓▓▓▓▓▓▓▓▓▓</font><font color="#968e8e">▓</font><font color="#666666">▓▓▓</font><font color="#373737">▓</font><font color="black">▓▓▓▓▓▓▓▓▓</font><br><font color="black">▓▓▓▓▓▓▓</font><font color="#262626">▓</font><font color="#7a7a7a">▓</font><font color="#a9a2a2">▓</font><font color="#b19394">▓▓▓</font><font color="#a88383">▓</font><font color="#460000">▓</font><font color="#450000">▓▓▓▓▓▓▓▓▓▓▓</font><font color="#916362">▓</font><font color="#b29394">▓▓▓</font><font color="#a39394">▓</font><font color="#7b7a7b">▓</font><font color="#313031">▓</font><font color="black">▓▓▓▓▓▓▓</font><br><font color="black">▓▓▓</font><font color="#010101">▓</font><font color="#030303">▓</font><font color="#292929">▓</font><font color="#939393">▓</font><font color="#a79d9d">▓</font><font color="#9b7272">▓</font><font color="#8d5e5e">▓</font><font color="#4a0101">▓▓▓▓</font><font color="#490101">▓</font><font color="#5a1515">▓</font><font color="#b08d8e">▓</font><font color="#a88180">▓</font><font color="#450000">▓▓▓▓▓▓▓▓▓▓</font><font color="#460101">▓▓</font><font color="#7b4545">▓</font><font color="#9b7272">▓</font><font color="#9a8988">▓</font><font color="#949393">▓</font><font color="#3a393a">▓</font><font color="#030303">▓</font><font color="#020202">▓</font><font color="black">▓▓▓</font><br><font color="black">▓</font><font color="#070707">▓</font><font color="#171717">▓</font><font color="#3a3838">▓</font><font color="#bdb9b9">▓</font><font color="#b7a6a6">▓</font><font color="#8a5b5b">▓</font><font color="#986a69">▓</font><font color="#c0a6a6">▓</font><font color="#c1a6a6">▓▓</font><font color="#c2a7a8">▓</font><font color="#c8b0b0">▓</font><font color="#c8afaf">▓</font><font color="#c2a6a6">▓</font><font color="#bd9c9c">▓</font><font color="#825050">▓</font><font color="#804a49">▓</font><font color="#4f0b0b">▓▓▓▓</font><font color="#490304">▓</font><font color="#460000">▓▓▓</font><font color="#4b0707">▓</font><font color="#4e0b0b">▓</font><font color="#9b6c6d">▓</font><font color="#c2a5a5">▓▓▓</font><font color="#a37979">▓</font><font color="#8a5b5b">▓</font><font color="#a68e8f">▓</font><font color="#bebaba">▓</font><font color="#898686">▓</font><font color="#181818">▓</font><font color="#101010">▓</font><font color="black">▓</font><br><font color="black">▓</font><font color="#6a6a6a">▓</font><font color="#e0e0e0">▓</font><font color="#c5b3b4">▓</font><font color="#693131">▓</font><font color="#844f4e">▓</font><font color="#d2bfbf">▓</font><font color="#c5a8a8">▓</font><font color="#693131">▓▓▓</font><font color="#825253">▓</font><font color="white">▓</font><font color="#f2e8e9">▓</font><font color="#6d3131">▓</font><font color="#6b2c2d">▓</font><font color="#561111">▓</font><font color="#642322">▓</font><font color="#d3bfbf">▓▓▓</font><font color="#d3bfbe">▓</font><font color="#804949">▓</font><font color="#551111">▓</font><font color="#4d0606">▓</font><font color="#480000">▓</font><font color="#b08b8a">▓</font><font color="#ddcfcf">▓</font><font color="#a27777">▓</font><font color="#7a4242">▓▓▓</font><font color="#b3908e">▓</font><font color="#d2bfbe">▓</font><font color="#976e6d">▓</font><font color="#6d3131">▓</font><font color="#af9393">▓</font><font color="#e1e1e1">▓</font><font color="#8f8e8e">▓</font><font color="black">▓</font><br><font color="#222222">▓</font><font color="#8a8787">▓</font><font color="#eae2e2">▓</font><font color="#c9acad">▓</font><font color="#460000">▓</font><font color="#490404">▓</font><font color="#541514">▓</font><font color="#521111">▓</font><font color="#450000">▓▓▓</font><font color="#682929">▓</font><font color="white">▓</font><font color="#eee2e3">▓</font><font color="#4a0000">▓</font><font color="#632020">▓</font><font color="#f1ebeb">▓</font><font color="#e5d8d7">▓</font><font color="#531515">▓</font><font color="#541514">▓▓</font><font color="#551515">▓</font><font color="#c6a9a8">▓</font><font color="#f1ebeb">▓</font><font color="#865455">▓</font><font color="#480000">▓</font><font color="#c7acaa">▓</font><font color="white">▓</font><font color="#eae1e1">▓</font><font color="#dccdcd">▓▓▓</font><font color="#905d5d">▓</font><font color="#561514">▓</font><font color="#4e0909">▓</font><font color="#490000">▓</font><font color="#a37c7b">▓</font><font color="#ebe2e2">▓</font><font color="#a39c9d">▓</font><font color="#222222">▓</font><br><font color="white">▓</font><font color="#dbc6c6">▓</font><font color="#450000">▓</font><font color="#460000">▓</font><font color="#480000">▓</font><font color="#470000">▓▓</font><font color="#510c0c">▓</font><font color="#7a4747">▓▓▓</font><font color="#8a5a5a">▓</font><font color="#cfb9b9">▓</font><font color="#c2a5a5">▓</font><font color="#4a0000">▓</font><font color="#5e1919">▓</font><font color="#cfb9b9">▓</font><font color="#ccb0b0">▓</font><font color="#794747">▓▓▓</font><font color="#7a4747">▓</font><font color="#ba9797">▓</font><font color="#cfb9ba">▓</font><font color="#794242">▓</font><font color="#480000">▓</font><font color="#a57c7c">▓</font><font color="#ceb9b9">▓</font><font color="#9c7373">▓</font><font color="#784747">▓</font><font color="#794747">▓▓</font><font color="#5c1b1b">▓</font><font color="#480000">▓</font><font color="#490000">▓▓▓▓</font><font color="#b49190">▓</font><font color="white">▓</font><br><font color="white">▓</font><font color="#dbc6c6">▓</font><font color="#450000">▓</font><font color="#460000">▓</font><font color="#480000">▓▓▓</font><font color="#632021">▓</font><font color="#d0bdbe">▓▓▓</font><font color="#bda2a1">▓</font><font color="#490000">▓</font><font color="#4f0808">▓</font><font color="#7a4343">▓</font><font color="#753a3a">▓</font><font color="#470000">▓</font><font color="#591313">▓</font><font color="#d1bdbd">▓▓▓▓</font><font color="#763d3d">▓</font><font color="#450000">▓</font><font color="#662c2c">▓</font><font color="#7a4343">▓</font><font color="#581616">▓</font><font color="#480000">▓</font><font color="#a27777">▓</font><font color="#d1bdbd">▓</font><font color="#d1bdbe">▓▓</font><font color="#824949">▓</font><font color="#490000">▓▓▓▓▓</font><font color="#b49190">▓</font><font color="white">▓</font><br><font color="white">▓</font><font color="#dbc6c6">▓</font><font color="#450000">▓</font><font color="#460000">▓</font><font color="#480000">▓▓▓</font><font color="#490101">▓</font><font color="#4b0505">▓</font><font color="#4a0505">▓▓</font><font color="#4a0404">▓</font><font color="#480000">▓</font><font color="#621e1e">▓</font><font color="#fcfafa">▓</font><font color="#efe7e7">▓</font><font color="#8d6060">▓</font><font color="#895858">▓</font><font color="#4c0505">▓▓▓▓</font><font color="#7c4443">▓</font><font color="#8e6160">▓</font><font color="#d4c6c6">▓</font><font color="#fcfafa">▓</font><font color="#865453">▓</font><font color="#480000">▓</font><font color="#4b0303">▓</font><font color="#4c0505">▓▓▓</font><font color="#4a0202">▓</font><font color="#490000">▓▓▓▓▓</font><font color="#b49190">▓</font><font color="white">▓</font><br><font color="white">▓</font><font color="#dbc6c6">▓</font><font color="#450000">▓</font><font color="#460000">▓</font><font color="#480000">▓▓▓▓▓▓▓▓▓</font><font color="#550e0e">▓</font><font color="#9f7878">▓</font><font color="#ae8b8b">▓</font><font color="white">▓</font><font color="#f9f5f4">▓</font><font color="#ac8888">▓▓▓▓</font><font color="#e8dbda">▓</font><font color="white">▓</font><font color="#c3a8a9">▓</font><font color="#9d7878">▓</font><font color="#652828">▓</font><font color="#480000">▓▓▓▓▓▓</font><font color="#490000">▓▓▓▓▓</font><font color="#b49190">▓</font><font color="white">▓</font><br><font color="white">▓</font><font color="#dbc6c6">▓</font><font color="#450000">▓</font><font color="#460000">▓</font><font color="#480000">▓▓▓▓▓▓▓▓▓▓▓</font><font color="#520c0b">▓</font><font color="#875656">▓</font><font color="#966768">▓</font><font color="white">▓▓▓▓</font><font color="#ad8d8c">▓</font><font color="#845656">▓</font><font color="#5d1f1f">▓</font><font color="#450000">▓</font><font color="#470000">▓</font><font color="#480000">▓▓▓▓▓▓</font><font color="#490000">▓▓▓▓▓</font><font color="#b49190">▓</font><font color="white">▓</font><br><font color="#2e2e2e">▓</font><font color="#898484">▓</font><font color="#dfd2d3">▓</font><font color="#bda1a2">▓</font><font color="#470000">▓</font><font color="#480000">▓▓▓▓▓▓▓▓</font><font color="#4a0202">▓</font><font color="#541111">▓</font><font color="#6a2b2b">▓</font><font color="#e0d2d3">▓</font><font color="#e3d6d6">▓</font><font color="#f3eeee">▓▓▓▓</font><font color="#e7dcdc">▓</font><font color="#e0d3d3">▓</font><font color="#865656">▓</font><font color="#521111">▓</font><font color="#4b0606">▓</font><font color="#480000">▓▓▓▓▓</font><font color="#490000">▓▓▓▓</font><font color="#9d7473">▓</font><font color="#dfd2d3">▓</font><font color="#a29b9a">▓</font><font color="#2e2d2d">▓</font><br><font color="black">▓</font><font color="#6f6f6f">▓</font><font color="#e2e2e2">▓</font><font color="#c6b4b5">▓</font><font color="#632829">▓</font><font color="#602020">▓</font><font color="#470000">▓</font><font color="#480000">▓▓▓▓</font><font color="#4c0606">▓</font><font color="#652828">▓</font><font color="#783f3f">▓</font><font color="#ece4e4">▓</font><font color="#ebe3e3">▓</font><font color="#e3d7d7">▓</font><font color="#d9c7c6">▓</font><font color="#5f1c1c">▓</font><font color="#5e1c1c">▓▓</font><font color="#5f1c1c">▓</font><font color="#bf9d9d">▓</font><font color="#e4d7d7">▓</font><font color="#e9e1e0">▓</font><font color="#ece3e3">▓</font><font color="#936868">▓</font><font color="#652929">▓</font><font color="#530f0f">▓</font><font color="#470000">▓</font><font color="#480000">▓▓</font><font color="#490000">▓▓</font><font color="#5a1818">▓</font><font color="#662929">▓</font><font color="#b09392">▓</font><font color="#e2e2e2">▓</font><font color="#8f8f8e">▓</font><font color="black">▓</font><br><font color="black">▓</font><font color="#0b0b0b">▓</font><font color="#191919">▓</font><font color="#3b3939">▓</font><font color="#b8b3b3">▓</font><font color="#b19e9f">▓</font><font color="#774242">▓</font><font color="#713737">▓</font><font color="#480000">▓▓▓</font><font color="#622626">▓</font><font color="#f3efef">▓</font><font color="#f1eae9">▓</font><font color="#d2bebe">▓</font><font color="#c5a8a9">▓</font><font color="#521111">▓</font><font color="#520f0f">▓</font><font color="#490000">▓▓▓</font><font color="#480000">▓</font><font color="#510c0b">▓</font><font color="#551111">▓</font><font color="#a78383">▓</font><font color="#d3bebe">▓</font><font color="#e9e0e0">▓</font><font color="#f3efef">▓</font><font color="#895a5a">▓</font><font color="#450000">▓</font><font color="#480000">▓▓</font><font color="#672928">▓</font><font color="#794242">▓</font><font color="#9f8383">▓</font><font color="#b8b4b3">▓</font><font color="#8b8987">▓</font><font color="#181818">▓</font><font color="#101010">▓</font><font color="black">▓</font><br><font color="black">▓▓▓</font><font color="#010101">▓</font><font color="#030303">▓</font><font color="#2b2a2a">▓</font><font color="#a2a0a1">▓</font><font color="#aea2a2">▓</font><font color="#8e6262">▓</font><font color="#835050">▓</font><font color="#480000">▓</font><font color="#5b1919">▓</font><font color="#ba9f9f">▓</font><font color="#ae8d8d">▓</font><font color="#4a0202">▓▓</font><font color="#490000">▓▓▓▓▓</font><font color="#480000">▓▓▓</font><font color="#4a0102">▓</font><font color="#4a0202">▓</font><font color="#976b6b">▓</font><font color="#ba9f9f">▓</font><font color="#743b3b">▓</font><font color="#470000">▓</font><font color="#743a3b">▓</font><font color="#8f6262">▓</font><font color="#9e8b8a">▓</font><font color="#a2a1a1">▓</font><font color="#403f40">▓</font><font color="#030303">▓</font><font color="#020202">▓</font><font color="black">▓▓▓</font><br><font color="black">▓▓▓▓▓▓▓</font><font color="#353434">▓</font><font color="#9d9c9d">▓</font><font color="#b8b0b0">▓</font><font color="#a78484">▓</font><font color="#a88484">▓▓</font><font color="#9f7575">▓</font><font color="#480000">▓</font><font color="#490000">▓▓▓▓▓▓</font><font color="#480000">▓▓▓</font><font color="#490000">▓</font><font color="#480000">▓</font><font color="#8c5958">▓</font><font color="#a98484">▓▓▓</font><font color="#ad9b9b">▓</font><font color="#9e9e9e">▓</font><font color="#434243">▓</font><font color="black">▓▓▓▓▓▓▓</font><br><font color="black">▓▓▓▓▓▓▓▓▓</font><font color="#353434">▓</font><font color="#6e6d6d">▓▓▓</font><font color="#7f7b7a">▓</font><font color="#c6acad">▓</font><font color="#c6acac">▓▓▓▓▓▓▓▓▓▓▓</font><font color="#9c918f">▓</font><font color="#6e6d6d">▓</font><font color="#6e6d6e">▓</font><font color="#6d6c6d">▓</font><font color="#3d3c3d">▓</font><font color="black">▓▓▓▓▓▓▓▓▓</font><br></pre> -->
@@ -440,7 +473,7 @@
                     while (($data = fgetcsv($file)) !== false) {
                         if ( $data[0] != "ID" ) {
                             printf("\n<h3 class='notranslate'>→ <a href=\"javascript:openWebApp(%s)\">%s</a></h3>", $data[1], $data[2]);
-                            printf("\n<div id='%s' class='description'><div class='dtoggle'>▀ <sup>show</sup></div><br>%s</div>\n<hr>\n",$data[0],$data[3]);
+                            printf("\n<div id='%s' class='description'><div class='dtoggle'>▀&nbsp;<sup>expand</sup>&nbsp;</div><br>%s</div>\n<hr>\n",$data[0],$data[3]);
                         }
                     }
                     // Closing the file
