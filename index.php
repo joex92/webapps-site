@@ -233,7 +233,7 @@
                     this.dx = this.x - this.effect.centerX;
                     this.dy = this.y - this.effect.centerY;
                     this.distance = (this.dx * this.dx + this.dy * this.dy);
-                    this.force = -Math.min(innerHeight*600, innerWidth*600) / this.distance;
+                    this.force = -Math.min(innerWidth * this.effect.image.width, innerHeight * this.effect.image.height) / this.distance;
                     this.angle = Math.atan2(this.dy, this.dx);
                     this.vx = this.force * Math.cos(this.angle);
                     this.vy = this.force * Math.sin(this.angle);
