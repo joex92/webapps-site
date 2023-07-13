@@ -300,7 +300,7 @@
                         this.size = <?php
                             $size = 30;
                             if ( isset($_GET['size']) ) {
-                                $size = $_GET['size'];
+                                $size = abs(intval($_GET['size']));
                             } 
                             echo $size;
                         ?>;
@@ -429,7 +429,10 @@ you can change:
     - alpha value
 
 You can also hide/unhide the content by clicking on the logo.
-👍🏼`);
+You can set the size of the squares for initialization as search params in the URL, just add "?size=" and a number (negative numbers will just use the absolute value).
+you can keep the content hidden on loading the page by adding the hash "#logo" to the URL.
+
+Happy experimenting! 👍🏼`);
             };
 
             // window.onloadeddata =  (e) => {
