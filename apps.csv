@@ -1,55 +1,60 @@
 ID,URL + Windows Size,TITLE,DESCRIPTION
 "PerlinMelodica","'PerlinMelodica',window.screen.availWidth,window.screen.availHeight","<del>Perlin Melodica</del> v1.8beta (in Maintenance)","This is a Digital Audiovisual Instrument that uses the Perlin algorithm to generate a texture were you can draw on it at a set pace (BPM) and, while drawing, it will generate a note where is being drawn according to the selected root-note and scale. At the same time the drawn color is given by the note that is generated.<br>
-                Here's the <a href='http://www.keyboard-layout-editor.com/#/gists/4619eacffc071da0797cb8f9762c0a24\' target='_blank'>Keyboard Layout</a>:
-                <ul>
-                    <img src='keyboard-layout.png' style='float: right; max-width: 80%; zoom: 10;'>
-                    <li>[Q] = C4</li>
-                    <li>[2] = C#4</li>
-                    <li>[W] = D4</li>
-                    <li>[3] = D#4</li>
-                    <li>[E] = E4</li>
-                    <li>[R] = F4</li>
-                    <li>[5] = F#4</li>
-                    <li>[T] = G4</li>
-                    <li>[6] = G#4</li>
-                    <li>[Y] = A4</li>
-                    <li>[7] = A#4</li>
-                    <li>[U] = B4</li>
-                    <li>[A]/[Z] = Minor Scales</li>
-                    <li>[S]/[X] = Scales</li>
-                    <li>[D]/[C] = Major Scales</li>
-                    <li>[←]/[→] = BPM</li>
-                    <li>[V]/[F] = Halve/Dup BPM</li>
-                    <li>[↑]/[↓] = Volume</li>
-                    <li>[Ctrl]+[S] = Save As PNG image</li>
-                    <li>[-]/[=] = Zoom</li>
-                    <li>[TAB] = Switch Algorithms</li>
-                    <li>[`] = Generate a new texture</li>
-                    <li>[ESC] = Toggle controls</li>
-                    <li>[BACKSPACE] = Hide Texture</li>
-                </ul>"
+Here's the <a href='http://www.keyboard-layout-editor.com/#/gists/4619eacffc071da0797cb8f9762c0a24\' target='_blank'>Keyboard Layout</a>:
+<ul>
+<img src='keyboard-layout.png' style='float: right; max-width: 80%; zoom: 10;'>
+	<li>[Q] = C4</li>
+	<li>[2] = C#4</li>
+	<li>[W] = D4</li>
+	<li>[3] = D#4</li>
+	<li>[E] = E4</li>
+	<li>[R] = F4</li>
+	<li>[5] = F#4</li>
+	<li>[T] = G4</li>
+	<li>[6] = G#4</li>
+	<li>[Y] = A4</li>
+	<li>[7] = A#4</li>
+	<li>[U] = B4</li>
+	<li>[A]/[Z] = Minor Scales</li>
+	<li>[S]/[X] = Scales</li>
+	<li>[D]/[C] = Major Scales</li>
+	<li>[←]/[→] = BPM</li>
+	<li>[V]/[F] = Halve/Dup BPM</li>
+	<li>[↑]/[↓] = Volume</li>
+	<li>[Ctrl]+[S] = Save As PNG image</li>
+	<li>[-]/[=] = Zoom</li>
+	<li>[TAB] = Switch Algorithms</li>
+	<li>[`] = Generate a new texture</li>
+	<li>[ESC] = Toggle controls</li>
+	<li>[BACKSPACE] = Hide Texture</li>
+</ul>"
+"xyosc","'xyosc',window.screen.availWidth,window.screen.availHeight","XY-Oscillator v0.5beta","This is a virtual instrument that will generate sound according to the drawing you make or the equation you input, either polar or parametric. You can use a midi controller too although the instrument is monophonic not polyphonic.<br>
+This instrument is still in development."
 "AvatarMicCam","'avatarmiccam',256,256","Avatar Mic-Cam v1.2","This is a little <i>'webapp'</i> I made for using when, livestreaming, you don't want to use (or don't have) a webcam.<br>
-                Anyways, it's easy to use. Just start by clicking <a href='javascript:openWebApp('avatarmiccam',256,256)'>here</a> (or the app's name), give it permission to use the microphone and click the image to start (don't  worry, you can change the image) and change the background color for the chroma key.<br>
-                Then you go to your streaming app, add the pop-up window as a Window Capture, crop it and voilá! you have your avatar, for your livestream, reacting to your microphone.<br><br>
-                Controls:
-                <ul>
-                    <li>[F1] = Debugging</li>
-                    <li>(single click the image) = Start!</li>
-                    <li>[Ctrl]+[O] | (Double click the image) = Change image's link</li>
-                    <li>[↑]/[↓] = Increase/Decrease Avatar's Size</li>
-                    <li>[←]/[→] = Increase/Decrease Mic Treshold</li>
-                    <li><font style='color: #F00;'>[R] = Red background</font></li>
-                    <li><font style='color: #0F0;'>[G] = Green background</font></li>
-                    <li><font style='color: #00F;'>[B] = Blue background</font></li>
-                    <li><font style='color: #0FF;'>[C] = Cyan background</font></li>
-                    <li><font style='color: #F0F;'>[M] = Magenta background</font></li>
-                    <li><font style='color: #FF0;'>[Y] = Yellow background</font></li>
-                    <li><font style='color: #777;'>[K] | [0] = blacK background</font></li>
-                    <li><font style='color: #FFF;'>[W] | [1] = White background</font></li>
-                </ul>"
+Anyways, it's easy to use. Just start by clicking <a href='javascript:openWebApp('avatarmiccam',256,256)'>here</a> (or the app's name), give it permission to use the microphone and click the image to start (don't  worry, you can change the image) and change the background color for the chroma key.<br>
+Then you go to your streaming app, add the pop-up window as a Window Capture, crop it and voilá! you have your avatar, for your livestream, reacting to your microphone.<br><br>
+Controls:
+<ul>
+	<li>[F1] = Debugging</li>
+	<li>(single click the image) = Start!</li>
+	<li>[Ctrl]+[O] | (Double click the image) = Change image's link</li>
+	<li>[↑]/[↓] = Increase/Decrease Avatar's Size</li>
+	<li>[←]/[→] = Increase/Decrease Mic Treshold</li>
+	<li><font style='color: #F00;'>[R] = Red background</font></li>
+	<li><font style='color: #0F0;'>[G] = Green background</font></li>
+	<li><font style='color: #00F;'>[B] = Blue background</font></li>
+	<li><font style='color: #0FF;'>[C] = Cyan background</font></li>
+	<li><font style='color: #F0F;'>[M] = Magenta background</font></li>
+	<li><font style='color: #FF0;'>[Y] = Yellow background</font></li>
+	<li><font style='color: #777;'>[K] | [0] = blacK background</font></li>
+	<li><font style='color: #FFF;'>[W] | [1] = White background</font></li>
+</ul>"
 "sc2tts","'sc2tts',window.screen.availWidth,window.screen.availHeight","Stream Chat to TTS (beta 1.5)","This is a web app for streamers to have a bot read your chat using the OS's TTS."
 "HOMeS","'https://www.proyectohomes.com/',window.screen.availWidth,window.screen.availHeight","Proyecto HOMeS (Spanish) [Currently Down]","<i class='commission'>This was a commission</i><br>The webpage is a virtual performance about the political situation of Beirut and the migration of many of Beirut citizens to Ecuador.<br>
-                Going through the page you'll see information about the issue (in Spanish) and the artist's performance."
-"laemece","'https://laemece.com',window.screen.availWidth,window.screen.availHeight","laemece.com (Spanish) [Currently Down]","<i class='commission'>This was a commission</i><br>This is the main page of the Ecuadorian band <a href='https://instagram.com/lamaquinacamaleon'><i>La Máquina Camaleón</i></a>. It was created as a way to <i>pre-release</i> their last single <b>MARI4</b> (2021/07/23).<br>
-                The goal of the game is to find all the stems of the new single scattered through a beach, and when you get all the stems, you'll get to download the single.<br>
-                All platform should be supported. if you find anything like a bug or error, please leave a comment here or a comment or DM on <a href='#links'>my socials</a>."
+Going through the page you'll see information about the issue (in Spanish) and the artist's performance."
+"laemece","'https://www.instagram.com/stories/highlights/18178340587193469/',window.screen.availWidth,window.screen.availHeight","laemece.com (Spanish) [Currently Down]","<i class='commission'>This was a commission</i><br>This was the main page of the Ecuadorian band <a href='https://instagram.com/lamaquinacamaleon'><i>La Máquina Camaleón</i></a>. It was created as a way to <i>pre-release</i> their last single <b>MARI4</b> (2021/07/23).<br>
+The goal of the game is to find all the stems of the new single scattered through a beach, and when you get all the stems, you'll get to download the single.<br>
+All platform should be supported. if you find anything like a bug or error, please leave a comment here or a comment or DM on <a href='#links'>my socials</a>."
+"dotgo","'https://linktr.ee/dot_go.ec',window.screen.availWidth,window.screen.availHeight","DOT_GO","This is an interdisciplinary collective in Arts and digital media created from two moments: inquiries about theatrical representation in virtuality and the impossibility of meeting in the pandemic. Mainly using Minecraft as an artistic resource, we seek to work around digital art, cyberperformance, musical applications to virtuality and experimentation with convivial, ludovivial and technovivial spatialities."
+"suenorush","'https://www.instagram.com/p/CZHyRwurOVv/',window.screen.availWidth,window.screen.availHeight","Sueño Rush","I was part of this interdisciplinary scenic presentation as the audio artists."
+"costapacifico","'https://www.instagram.com/stories/highlights/17973872717049240/',window.screen.availWidth,window.screen.availHeight","Costa Pacífico","This was a theatrical-performative project that sought to demonstrate the processes of social acceleration and sensitive resonance experienced by the portal communities of the South Pacific Coast. I participated here as the project programmer."
