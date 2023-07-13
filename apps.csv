@@ -29,7 +29,7 @@ Here's the <a href='http://www.keyboard-layout-editor.com/#/gists/4619eacffc071d
 	<li>[BACKSPACE] = Hide Texture</li>
 </ul>"
 "xyvi","'https://xy.virti.net/',window.screen.availWidth,window.screen.availHeight","XYVI: XY Virtual Instruments package (Still in development)","This is a plugin package for DAWs about generating sounds that will visualize graphs in a Oscilloscope in mode XY.<br>
-This is yet to be released."
+This is yet to be released but I made a demo presentation at UArtes (Guayaquil, EC) at the MMAT event, you can <a href='https://www.instagram.com/reel/CgxrGugIJpL/?utm_source=ig_web_copy_link&igshid=MzRlODBiNWFlZA==' target='_blank'>check it here</a> and also I made a <a href='https://www.instagram.com/reel/CseL3qNoD7v/?utm_source=ig_web_copy_link&igshid=MzRlODBiNWFlZA=='>demo video about it</a>"
 "xyosc","'xyosc',window.screen.availWidth,window.screen.availHeight","XY-Oscillator v0.5beta","This is a virtual instrument that will generate sound according to the drawing you make or the equation you input, either polar or parametric. You can use a midi controller too although the instrument is monophonic not polyphonic.<br>
 This instrument is still in development."
 "AvatarMicCam","'avatarmiccam',256,256","Avatar Mic-Cam v1.2","This is a little <i>'webapp'</i> I made for using when, livestreaming, you don't want to use (or don't have) a webcam.<br>
